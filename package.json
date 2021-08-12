@@ -1,0 +1,24 @@
+{
+  "name": "nodeapi",
+  "version": "1.0.0",
+  "description": "git clone https://github.com/guvanch999/nodeApi <project folder>\r   cd project folder",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guvanch999/nodeApi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/guvanch999/nodeApi/issues"
+  },
+  "homepage": "https://github.com/guvanch999/nodeApi#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.12"
+  }
+}
