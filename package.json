@@ -1,11 +1,14 @@
 {
-  "name": "nodeapi",
+  "name": "aktayapi",
   "version": "1.0.0",
   "description": "git clone https://github.com/guvanch999/nodeApi <project folder>\r   cd project folder",
   "main": "index.js",
+  "engines": {
+    "node": "14.17.3"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"nodemon app.js"
+    "start": " node app.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +21,24 @@
   },
   "homepage": "https://github.com/guvanch999/nodeApi#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "nodemon": "^2.0.12"
+    "express-validator": "^6.12.1",
+    "firebase-admin": "^9.12.0",
+    "helmet": "^4.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.3",
+    "nodemon": "^2.0.12",
+    "pg": "^8.7.1",
+    "sharp": "^0.28.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.0"
   }
 }
