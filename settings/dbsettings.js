@@ -1,5 +1,9 @@
 const dotenv = require('dotenv');
-dotenv.config();
+
+if(process.env.NODE_ENV !== "production"){
+    dotenv.config();
+}
+
 ServerSettings={
     user: process.env.PGUSERNAME,
   host: process.env.PGHOST,
