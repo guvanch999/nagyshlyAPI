@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=production PORT=3000 PGPASSWORD=fib11235 PGUSERNAME=userforaktay PGDATABASE=dbforaktay PGHOST=localhost PGP0RT=5432 node app.js"
+    "start": "NODE_ENV=production PORT=80 PGPASSWORD=fib11235 PGUSERNAME=userforaktay PGDATABASE=dbforaktay PGHOST=localhost PGP0RT=5432 node app.js"
   },
   "repository": {
     "type": "git",
