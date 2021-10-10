@@ -1,0 +1,109 @@
+create table admintables(
+id serial primary key,
+username varchar(300),
+password varchar(300)
+);
+create table adresler(
+id serial primary key,
+user_id serial,
+adress text
+);
+create table banners(
+id serial primary key,
+image_url text
+);
+create table categoriyalar(
+  id serial primary key,
+  image_url varchar(300),
+  tm_name text,
+  ru_name text,
+  created_at timestamp
+);
+create table disqounts(
+ id serial primary key,
+  image_url varchar(300),
+  color_id integer,
+  discount integer,
+  size varchar(200)
+);
+create table habarlashmak(
+id serial primary key,
+tm_adress text,
+tel_no varchar(100),
+mail varchar(300),
+ru_adress text
+);
+create table productimages(
+id serial primary key,
+user_id serial,
+url text
+);
+create table products(
+id    serial primary key,
+ category_id   integer,
+ image_url    varchar(300),
+ tm_name      text,
+ ru_name      text,
+ tm_about      text,
+ ru_about      text,
+ countinstock  integer,
+ price         numeric,
+ discount      numeric,
+ new_price     numeric,
+ created_at timestamp
+);
+create table psettings(
+id        serial primary key,
+ delprice  numeric,
+ discount  numeric 
+);
+create table renkler(
+id       serial primary key,
+ tm_name  text,
+ ru_name  text,
+ code     varchar(10)
+);
+create table sargytlar(
+ id          serial primary key,
+ user_id      integer,
+ sene        varchar(200),
+ adress       text ,
+ harytlar     numeric,
+ eltip_berme  numeric,
+ discount     numeric,
+ total        numeric,
+ status       varchar(10),
+ created_at  timestamp
+);
+create table sargytproductler(
+ id           serial primary key,
+  tm_name       text ,
+ ru_name       text ,
+ old_price     numeric,
+ new_price     numeric,
+ sany          integer,
+ sargytlar_id  integer ,
+ umage_url     text,
+pc_id    integer
+);
+create table ulanysh_dugunler(
+ id      serial primary key,
+ tm_rule  text ,
+ ru_rule  text
+);
+create table users(
+id          serial primary key, 
+ full_name   text,
+ tel_no      varchar(100),
+ created_at  timestamp,
+fcm_tocken   text
+);
+create table verifications(
+ id         serial primary key,
+ number     varchar(100),
+ ver_code   varchar(100),
+ time       bigint,
+ sms_sended varchar(10)
+);
+
+
