@@ -27,13 +27,22 @@ var checklogin=async (req,res)=>{
                         message:e.MsgTmFlags.ERROR_AUTH
                   });
             }
-            var token = webtoken.sign({
-                  user_id:result.rows[0].id,
-                  username:result.rows[0].username
-            },settings.APISECRETKEY,
-            {
-                  expiresIn:'1000000h'
-            });
+            try {
+                  var token = webtoken.sign({
+                            user_id: result.rows[0].id,
+                            username: result.rows[0].username
+                      }, settings.APISECRETKEY,
+                      {
+                            expiresIn: '1000000h'
+                      });
+            }catch (tockenerr){
+                  console.log(tockenerr);
+                  return res.status(500).json({
+                        success:false,
+                        message:e.MsgTmFlags.INTERNAL_SERVER_ERROR
+                  });
+            }
+
             console.log(token);
             return res.status(200).json({
                   success: "ok",
