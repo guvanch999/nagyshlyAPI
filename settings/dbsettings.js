@@ -7,5 +7,6 @@ ServerSettings={
   password: process.env.PGPASSWORD,
   port: process.env.PGP0RT,
 }
+console.log(ServerSettings);
 module.exports=ServerSettings
 
