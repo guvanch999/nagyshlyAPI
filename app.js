@@ -3,13 +3,13 @@ const pool=require('./db/db');
 const cors=require('cors');
 const heltet=require('helmet');
 const  morgan=require('morgan');
-const  dotenv=require('dotenv');
+//const  dotenv=require('dotenv');
 var fs = require('fs');
 
 
 
 dotenv.config();
-const port=process.env.PORT||8080;
+const port=process.env.PORT||3000;
 
 const app=express();
 app.use(cors());

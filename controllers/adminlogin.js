@@ -5,8 +5,10 @@ const sqlqueries=require('../sqlqueries/adminloginqueryes');
 const settings = require('../settings/usersettings');
 
 var checklogin=async (req,res)=>{
-      var username=req.body.userdata.username;
-      var password=req.body.userdata.password;
+      console.log(req.body);
+      var username=req.body.userdata.username||"";
+      var password=req.body.userdata.password||"";
+
       if(!username || !password){
             return res.status(400).json({
                   success:false,
@@ -21,10 +23,10 @@ var checklogin=async (req,res)=>{
                         message:e.MsgTmFlags.INTERNAL_SERVER_ERROR
                   });   
             }
-            if(result.rowCount==0){
+            if(result.rowCount==0) {
                   return res.status(400).json({
-                        success:false,
-                        message:e.MsgTmFlags.ERROR_AUTH
+                        success: false,
+                        message: e.MsgTmFlags.ERROR_AUTH
                   });
             }
             try {

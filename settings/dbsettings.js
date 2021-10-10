@@ -1,11 +1,11 @@
-require('dotenv').config();
-
+//require('dotenv').config();
+process.env.TOKEN_KEY='aktayapicreatedbyalfalabs';
 ServerSettings={
-    user: process.env.PGUSERNAME,
-  host: process.env.PGHOST,
-  database: process.env.PGDATABASE,
-  password: process.env.PGPASSWORD,
-  port: process.env.PGP0RT,
+    user: 'userforaktay',
+  host: 'localhost',
+  database: 'dbforaktay',
+  password: 'fib11235',
+  port: '5432',
 }
 console.log(ServerSettings);
 module.exports=ServerSettings
