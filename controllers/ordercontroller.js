@@ -328,7 +328,7 @@ var getalladminorders = async (req, res) => {
       var _count = url_parts.count;
       var _skip = (_page - 1) * _count;
       var _sort = url_parts.sort || "desc";
-      var _filter = url_parts.filter || 0;
+      var _filter = url_parts.filter || -1;
       if (!_page || !_count) {
             return res.status(400).json({
                   success: false,
@@ -343,27 +343,52 @@ var getalladminorders = async (req, res) => {
                         message: e.MsgTmFlags.INTERNAL_SERVER_ERROR
                   });
             }
-            await pool.query(queries.getcountofall(_sort, _filter), (err1, result1) => {
-                  if (err1) {
-                        console.log(err1);
+            await pool.query(queries.makeisshown,async (errr,rrresult)=>{
+                  if(errr){
+                        console.log(errr);
                         return res.status(500).json({
                               success: false,
                               message: e.MsgTmFlags.INTERNAL_SERVER_ERROR
                         });
                   }
-                  var count = result1.rows[0].count / _count;
-                  if (Math.floor(count) < count) count += 1;
-                  count = Math.floor(count);
 
-                  return res.status(200).json({
-                        success: true,
-                        data: result.rows,
-                        pagecount: count
+                  await pool.query(queries.getcountofall(_sort, _filter), (err1, result1) => {
+                        if (err1) {
+                              console.log(err1);
+                              return res.status(500).json({
+                                    success: false,
+                                    message: e.MsgTmFlags.INTERNAL_SERVER_ERROR
+                              });
+                        }
+                        var count = result1.rows[0].count / _count;
+                        if (Math.floor(count) < count) count += 1;
+                        count = Math.floor(count);
+
+                        return res.status(200).json({
+                              success: true,
+                              data: result.rows,
+                              pagecount: count
+                        });
                   });
             });
-
       });
 }
+var getnotshown=async  (req,res)=>{
+      await  pool.query(queries.getnotshown,(err,result)=>{
+            if(err){
+                  console.log(err);
+                  return res.status(500).json({
+                        success:false,
+                        message:"Internal server error!"
+                  });
+            }
+            return  res.status(200).json({
+                  success:true,
+                  data:result.rows[0].count
+            });
+      })
+}
+
 var getorderproductsforadminaction = async (req, res) => {
       var _id = req.params.id;
       if (!_id) {
@@ -510,5 +535,6 @@ module.exports = {
       getadminorders,
       getorderproductsforadminaction,
       updatestatusaction,
-      getalladminorders
+      getalladminorders,
+      getnotshown
 }

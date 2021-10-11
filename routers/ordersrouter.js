@@ -15,4 +15,5 @@ router.get('/orderforadmin/:id',auth.VerifieToken,controller.getadminorders);
 router.get('/orderproductsforadmin/:id',auth.VerifieToken,controller.getorderproductsforadminaction);
 router.post('/orderstatus/:id',auth.VerifieToken,controller.updatestatusaction);
 router.get('/getallorders',auth.VerifieToken,controller.getalladminorders);
+router.get('/getnotshownorders',controller.getnotshown);
 module.exports=router;

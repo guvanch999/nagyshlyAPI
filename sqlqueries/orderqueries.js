@@ -46,4 +46,5 @@ module.exports={
       returnorder:"update disqounts d set discount=discount+(select s.sany from sargytproductler s where s.sargytlar_id=$1 and s.pc_id=d.id) where d.id in (select pc_id from sargytproductler where sargytlar_id=$1) returning * ;",
       getuser:"select * from users where id=$1;",
       makeisshown:"update sargytlar set isshown='1' where isshown='0'",
+      getnotshown:"select count(*) as count from sargytlar where isshown='0';"
 }
