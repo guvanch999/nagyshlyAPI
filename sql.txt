@@ -73,7 +73,8 @@ create table sargytlar(
  discount     numeric,
  total        numeric,
  status       varchar(10),
- created_at  timestamp
+ created_at  timestamp,
+ isshown   varchar(10)
 );
 create table sargytproductler(
  id           serial primary key,
