@@ -13,7 +13,7 @@ class Resize {
   
   async save(buffer) {
     
-    const _filepath = this.filepath();
+    const _filepath = this.fileURL();
     try{
     await sharp(buffer, { failOnError: false })
       .resize(this.width, this.height, {

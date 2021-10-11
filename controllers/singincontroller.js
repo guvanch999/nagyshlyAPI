@@ -40,7 +40,7 @@ var PostCode = async (req, res) => {
             })
       }
       for (var i = 0; i < 5; i++) {
-            sn += GETRANDOM();
+            sn += Math.floor(GETRANDOM());
       }
       const payload = {
             notification: {
@@ -250,7 +250,7 @@ var finishsingup = async (req, res) => {
 
 
 function GETRANDOM() {
-      return crypto.randomInt(10);
+      return Math.random()*9;
 }
 module.exports = {
       PostCode,

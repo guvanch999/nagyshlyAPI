@@ -17,7 +17,7 @@ app.use(heltet());
 app.use(morgan('combined'));
 require('./midlewares/midlewares')(app);
 require('./routers/index')(app);
-
+app.use('/uploads',express.static(__dirname+'/uploads'));
 
 async function resetfunction(){
 
