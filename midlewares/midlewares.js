@@ -18,7 +18,8 @@ module.exports=(app)=>{
     app.use(express.static(__dirname))
     app.use(express.json())
     //app.use(express.static(path.join(__dirname, 'uploads')));
-    app.use('/uploads', express.static('uploads')); 
+    //app.use('/uploads', express.static(__dirname+'uploads'));
+    app.use('/uploads', express.static(__dirname + '/uploads'));
       app.use('/',logmiddl.LogFunction);
     
     console.log("midwares is inserted");

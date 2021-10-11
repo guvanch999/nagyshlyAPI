@@ -7,13 +7,14 @@ exports.VerifieToken= async (req,res,next)=>{
       const admin=req.header('admin')||false;
       if(!token)return res.status(401).json({
             success:false,
-            message:"Access Denied"
+            message:"No token detected"
       });
 
       try{
             
             const verified=jwt.verify(token,process.env.TOKEN_KEY);
             req.user=verified;
+            console.log(req.user);
       }catch(err)
       {
             console.log(err);
@@ -24,7 +25,9 @@ exports.VerifieToken= async (req,res,next)=>{
       }
       try{
             var que="";
+
             if(admin)que=queries.CHECKADMIN; else que=queries.CHECKUSER;
+            console.log(que);
             var result = await pool.query(que,[req.user.user_id]);
             if(!result.rowCount){
                   return res.status(401).json({

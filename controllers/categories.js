@@ -9,6 +9,7 @@ var addcategory = async (req, res) => {
       const imagePath = 'categoryimages';
       const tkm_name = req.body.tm_name;
       const rus_name = req.body.ru_name;
+      console.log(req.body);
       if (!tkm_name || !rus_name) {
             return res.status(400).json({
                   success: false,

@@ -21,6 +21,7 @@ class Resize {
         withoutEnlargement: true
       })
       .toFile(_filepath);
+    console.log("image saved");
     }
     catch(err){
         console.log(err);
