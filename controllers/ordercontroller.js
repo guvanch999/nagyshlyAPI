@@ -457,8 +457,8 @@ const notification_options = {
       timeToLive: 60 * 60 * 24
 };
 var smsmessages=[
-      'Siziň sargydyňyz ýola düşdi!',
-      'Siziň sargydyňyz kabul edilmedi!'
+      'Siziň sargydyňyz kabul edilmedi!',
+      'Siziň sargydyňyz ýola düşdi!'
 ]
 async function sendmessage(id, status) {
       if(status==0 || status==3) return false;
