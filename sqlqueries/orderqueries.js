@@ -9,7 +9,7 @@ module.exports={
             return "SELECT CC.id,CC.color_id ,RR."+name+"_name as name,RR.code,CC.size,CC.discount as count FROM disqounts AS CC INNER JOIN renkler AS RR on RR.id=CC.color_id where CC.prod_id=$1 limit 1;";
       },
       GETPRODUCTSETTINGS:"SELECT delprice,discount FROM psettings;",
-      INSERTORDER:"INSERT INTO sargytlar(user_id,sene,adress,harytlar,eltip_berme,discount,total,status,created_at) VALUES($1,now(),$2,$3,$4,$5,$6,'0',now()) returning id;",
+      INSERTORDER:"INSERT INTO sargytlar(user_id,sene,adress,harytlar,eltip_berme,discount,total,status,created_at,isshown) VALUES($1,now(),$2,$3,$4,$5,$6,'0',now(),'0') returning id;",
       UPDATE:"UPDATE disqounts SET discount=discount-$2 WHERE id=$1 returning prod_id;",
       SELECTPRODUCTDETALS:"SELECT tm_name,ru_name,image_url,price,new_price FROM products where id=$1",
       INSERTPRODUCTTOORDERS:"insert into sargytproductler(sargytlar_id,tm_name,ru_name,old_price,new_price,sany,umage_url,pc_id) values($1,$2,$3,$4,$5,$6,$7,$8);",
@@ -44,5 +44,6 @@ module.exports={
             return s;
       },
       returnorder:"update disqounts d set discount=discount+(select s.sany from sargytproductler s where s.sargytlar_id=$1 and s.pc_id=d.id) where d.id in (select pc_id from sargytproductler where sargytlar_id=$1) returning * ;",
-      getuser:"select * from users where id=$1;"
+      getuser:"select * from users where id=$1;",
+      makeisshown:"update sargytlar set isshown='1' where isshown='0'",
 }
