@@ -22,6 +22,7 @@ module.exports={
       setbanner:"insert into banners(image_url) values($1) returning *;",
       getbannerforcheck:"select * from banners where id=$1;",
       deletebanner:"delete from banners where id=$1 returning *;",
+      selectskidsforuser:(lang)=>"select 0 as id,image_url,"+lang+"_name as name,'00.00.0000' as 'created_at' from skidsettings;",
       getskidkapart:"select * from skidsettings;",
       updateskidkadata:"update skidsettings set tm_name=$1, ru_name=$2, image_url=$3 where id=1 returning *",
 }

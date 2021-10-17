@@ -125,7 +125,7 @@ var searchcategrory=async (req,res)=>{
                   });
             }
             try {
-                  var getskid=await pool.query(queries.getskidkapart);
+                  var getskid=await pool.query(queries.selectskidsforuser(req.header('language')));
                   var resultarray=getskid.rows.concat(result.rows);
                   return res.status(200).json({
                         success:true,
