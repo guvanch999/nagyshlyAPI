@@ -107,4 +107,15 @@ create table verifications(
  sms_sended varchar(10)
 );
 
+create table skidsettings(
+id serial primary key,
+tm_name text,
+ru_name text,
+image_url text);
+
+insert into skidsettings (tm_name,ru_name) values('Arzanladysh','skidka');
+
+insert into habarlashmak(tm_adress,tel_no,mail,ru_adress) values ('Turkmenche adres','+99360000000','testmail@mail.com','Russkiy adres');
+
+insert into psettings (delprice,discount) values (15, 0);
 

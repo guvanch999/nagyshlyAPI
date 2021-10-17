@@ -5,6 +5,7 @@ const queries = require('../sqlqueries/orderqueries');
 const url = require('url');
 const admin = require('../utils/firebase-config');
 
+
 var checkorders = async (req, res) => {
       var products = req.body;
       if (!Array.isArray(products) || !req.header('language')) {

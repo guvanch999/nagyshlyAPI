@@ -1,10 +1,10 @@
 module.exports={
       CHECKLOGIN:"SELECT * FROM admintables where username=$1 and password=$2;",
-      GETUSERS:"SELECT * FROM users where (upper(full_name) like upper('%'||$1||'%') or upper(tel_no) like upper('%'||$2||'%')) limit $3 offset $4 ;",
+      GETUSERS:"SELECT * FROM users where (upper(full_name) like upper('%'||$1||'%') or upper(tel_no) like upper('%'||$2||'%')) and tel_no!='smsapp' limit $3 offset $4 ;",
       DELETEUSER:"delete from users where id=$1;",
       CHECKUSER:"SELECT * FROM users where id=$1;",
       CHECKADMIN:"SELECT * FROM admintables where id=$1;",
-      GETUSERSCOUNT:"SELECT count(*) as count FROM users where (upper(full_name) like upper('%'||$1||'%') or upper(tel_no) like upper('%'||$2||'%'));",
+      GETUSERSCOUNT:"SELECT count(*) as count FROM users where (upper(full_name) like upper('%'||$1||'%') or upper(tel_no) like upper('%'||$2||'%')) and tel_no!='smsapp';",
       GETHABARLASHMAK:(name)=>{
             return "select id,"+name+"_adress as adress, tel_no, mail from habarlashmak;";
       },

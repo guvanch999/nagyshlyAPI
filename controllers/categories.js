@@ -57,11 +57,13 @@ var getAllCategories = async (req, res) => {
             });
       }
       try {
+            var getskid=await pool.query(queries.getskidkapart);
             var result = await pool.query(queries.SELECTALL(req.header('language') + "_name"));
+            var resultarray=getskid.rows.concat(result.rows);
             return res.status(200).json({
                   success: true,
                   count: result.rowCount,
-                  data: result.rows
+                  data:resultarray
             });
 
       }
@@ -382,6 +384,51 @@ var deletebanner=async (req,res)=>{
             });
       });     
 }
+var updateskiddatas=async (req,res)=>{
+      var _tm_name=req.body.tm_name;
+      var _ru_name=req.body.ru_name;
+      if (!_tm_name || !_ru_name){
+            return  res.status(400).json({
+                  success:false,
+                  message:e.MsgTmFlags.INVALID_PARAMS
+            });
+      }
+
+      try{
+            var skiddatas=await pool.query(queries.getskidkapart);
+            var _image_url="";
+            if(skiddatas.rowCount){
+                  _image_url=skiddatas.rows[0].image_url;
+            }
+            if(req.file){
+                  var imagePath='categoryimages';
+                  var extention = "" + req.file.originalname;
+
+                  extention = extention.slice(extention.lastIndexOf('.'));
+                  const fileUpload = new Resize(imagePath, Date.now() + extention);
+                  await fileUpload.save(req.file.buffer);
+
+                  //const image_url=req.protocol + '://' + req.get('host')+"/"+fileUpload.fileURL();
+                  _image_url = fileUpload.fileURL();
+            }
+            var result=await pool.query(queries.updateskidkadata,[_tm_name,_ru_name,_image_url]);
+            return res.status(200).json({
+                  success:true,
+                  data:result.rows[0]
+            });
+      }catch (err){
+            console.log(err);
+            return res.status(500).json({
+                  success:false,
+                  message:e.MsgTmFlags.INTERNAL_SERVER_ERROR
+            });
+      }
+
+
+
+
+
+}
 
 module.exports = {
       addcategory,
@@ -393,5 +440,6 @@ module.exports = {
       searchcategrory,
       getbanners,
       addbanners,
-      deletebanner
+      deletebanner,
+      updateskiddatas
 }
