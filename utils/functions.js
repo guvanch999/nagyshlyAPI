@@ -14,18 +14,19 @@ var deleteServerFilePath=async (path,leng)=>{
       } 
 }
 var verifieproductbody=(req)=>{
-      const catID=req.body.category_id;
-      const tkm_name=req.body.tm_name;
-      const rus_name=req.body.ru_name;
-      const tm_about=req.body.tm_about;
-      const ru_about=req.body.ru_about;
-      const price=req.body.price;
-      const discount=req.body.discount;
-      const new_price=req.body.new_price;
+      var catID=req.body.category_id;
+      var  tkm_name=req.body.tm_name;
+      var rus_name=req.body.ru_name;
+      var tm_about=req.body.tm_about;
+      var ru_about=req.body.ru_about;
+      var price=req.body.price;
+      var discount=req.body.discount;
+      var new_price=req.body.new_price;
       if(!catID||!tkm_name||!rus_name||!tm_about||
-            !ru_about||price==undefined||discount==undefined||new_price==undefined){
+            !ru_about||!price||discount==undefined||new_price==undefined){
             return false;
       }
+      if(new_price===0)new_price=price;
       return [catID,tkm_name,rus_name,tm_about,ru_about,price,discount,new_price];
 
 }
