@@ -116,7 +116,7 @@ var searchcategrory=async (req,res)=>{
                   message: e.MsgRuFlags.INVALID_PARAMS
             });
       }
-      await pool.query(queries.SELECTBYSEARCHTEXT(req.header('language')),[_searchtext],(err,result)=>{
+      await pool.query(queries.SELECTBYSEARCHTEXT(req.header('language')),[_searchtext],async (err,result)=>{
             if(err){
                   console.log(err);
                   return res.status(500).json({
@@ -124,10 +124,21 @@ var searchcategrory=async (req,res)=>{
                         message:req.header('language') == 'tm' ? e.MsgTmFlags.INTERNAL_SERVER_ERROR : e.MsgRuFlags.INTERNAL_SERVER_ERROR,
                   });
             }
-            return res.status(200).json({
-                  success:true,
-                  data:result.rows
-            });
+            try {
+                  var getskid=await pool.query(queries.getskidkapart);
+                  var resultarray=getskid.rows.concat(result.rows);
+                  return res.status(200).json({
+                        success:true,
+                        data:resultarray
+                  });
+            }catch (err1){
+                  console.log(err1);
+                  return res.status(500).json({
+                        success:false,
+                        message:req.header('language') == 'tm' ? e.MsgTmFlags.INTERNAL_SERVER_ERROR : e.MsgRuFlags.INTERNAL_SERVER_ERROR,
+                  })
+            }
+
       });
 }
 var updateCategory = async (req, res) => {
