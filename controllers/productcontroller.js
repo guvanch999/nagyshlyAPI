@@ -18,30 +18,52 @@ var getallProducts = async (req, res) => {
       var url_parts = url.parse(req.url, true).query;
       var _pages = url_parts.pages;
       var _skip = (_pages - 1) * 10;
-      if (!_id || !_pages || !req.header('language')) {
+
+      if (!_pages || !req.header('language')) {
             return res.status(400).json({
                   success: false,
-                  message: req.header('language') == "tm" ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS
+                  message: req.header('language') === "tm" ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS
             });
       }
+     if(_id==undefined){
+           return res.status(400).json({
+                 success: false,
+                 message: req.header('language') === "tm" ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS
+           });
+     }
+     if(_id==0){
+           await pool.query(productqueries.GETALLDISQOUNTPROD, [_skip], (err, result) => {
+                 if (err) {
+                       console.log(err);
+                       return res.status(500).json({
+                             success: false,
+                             message: req.header('language') == "tm" ? e.MsgTmFlags.ERROR : e.MsgRuFlags.ERROR
+                       });
+                 }
+                 else {
+                       return res.status(200).json({
+                             success: true,
+                             data: result.rows
+                       });
+                 }
+           });
+     } else {
+           await pool.query(productqueries.GETALLPRODUCTS(req.header('language')), [_id, _skip], (err, result) => {
+                 if (err) {
+                       console.log(err);
+                       return res.status(500).json({
+                             success: false,
+                             message: req.header('language') == "tm" ? e.MsgTmFlags.ERROR : e.MsgRuFlags.ERROR
+                       });
 
-      await pool.query(productqueries.GETALLPRODUCTS(req.header('language')), [_id, _skip], (err, result) => {
-            if (err) {
-                  console.log(err);
-                  return res.status(500).json({
-                        success: false,
-                        message: req.header('language') == "tm" ? e.MsgTmFlags.ERROR : e.MsgRuFlags.ERROR
-                  });
-
-            }
-            else {
-                  return res.status(200).json({
-                        success: true,
-                        data: result.rows
-                  });
-            }
-      });
-
+                 } else {
+                       return res.status(200).json({
+                             success: true,
+                             data: result.rows
+                       });
+                 }
+           });
+     }
 }
 var getbyseearchtext=async (req,res)=>{
       var _searchtext = req.body.searchtext || "";

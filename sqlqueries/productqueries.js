@@ -5,6 +5,11 @@ module.exports = {
                   "FROM products as p  " +
                   "INNER JOIN categoriyalar as c on c.id=p.category_id and c.id=$1 and p.countinstock>0 limit 10 offset $2;";
       },
+      GETALLDISQOUNTPROD: "SELECT  p.id,p.image_url,p.tm_name,p.ru_name,p.countinstock, " +
+                "p.price,p.discount,p.new_price " +
+                "FROM products as p  " +
+                "INNER JOIN categoriyalar as c on c.id=p.category_id and p.discount>0 and p.countinstock>0 limit 10 offset $1;"
+      ,
       GETFAVORITEPRODUCTS: (ids) => {
             return "SELECT  p.id,p.image_url,p.tm_name,p.ru_name,p.countinstock, " +
                   "p.price,p.discount,p.new_price " +
