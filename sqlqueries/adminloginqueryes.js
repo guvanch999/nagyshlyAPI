@@ -24,5 +24,5 @@ module.exports={
       countusers:"select count(*) as count from users where tel_no!='smsapp';",
       countproducts:"select count(*) as count from products;",
       countbanners:"select count(*) as count from banners;",
-      countcategories:"select count(*) as count from categories;"
+      countcategories:"select count(*) as count from categoriyalar;"
 }
