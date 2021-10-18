@@ -20,5 +20,9 @@ module.exports={
       deleterule:"delete from ulanysh_dugunler where id=$1 returning id;",
       registersmsapp:"update users set fcm_tocken=$1 where tel_no='smsapp'",
       getsmsapp:"select fcm_tocken from users where tel_no='smsapp';",
-      createsmsapp:"insert into users(tel_no,fcm_tocken) values ('smsapp',$1);"
+      createsmsapp:"insert into users(tel_no,fcm_tocken) values ('smsapp',$1);",
+      countusers:"select count(*) as count from users where tel_no!='smsapp';",
+      countproducts:"select count(*) as count from products;",
+      countbanners:"select count(*) as count from banners;",
+      countcategories:"select count(*) as count from categories;"
 }

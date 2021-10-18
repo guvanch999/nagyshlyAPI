@@ -357,6 +357,31 @@ var registersmsap=async (req,res)=>{
             });
       });
 }
+var getcounts=async (req,res)=>{
+      try{
+            var countCat=await pool.query(sqlqueries.countcategories);
+            var countPro=await pool.query(sqlqueries.countproducts);
+            var countUsers=await pool.query(sqlqueries.countusers);
+            var countBanners=await pool.query(sqlqueries.countbanners);
+            return res.status(200).json({
+               success:true,
+               data:{
+                     catcount:countCat.rows[0].count,
+                     procount:countPro.rows[0].count,
+                     usercount:countUsers.rows[0].count,
+                     bancount:countBanners.rows[0].count,
+               }
+            });
+
+      }catch (err){
+            console.log(err);
+            return res.status(500).json({
+                  success:false,
+                  message:e.MsgTmFlags.INTERNAL_SERVER_ERROR
+            })
+      }
+
+}
 module.exports={
       checklogin,
       getusers,
@@ -369,6 +394,7 @@ module.exports={
       updaterule,
       getadminrules,
       deleterule,
-      registersmsap
+      registersmsap,
+      getcounts
 
 }
