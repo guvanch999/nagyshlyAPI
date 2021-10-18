@@ -8,6 +8,7 @@ router.post('/banners',upload.single('bannerimage'),controller.addbanners);
 router.delete('/banners/:id',controller.deletebanner);
 
 router.put('/updateskiddatas',upload.single('updatedimage'),controller.updateskiddatas);
+router.get('/getskiddatas',controller.getskiddatas);
 
 router.post('/', auth.VerifieToken, upload.single('categoryimage') ,controller.addcategory);
 router.get('/',controller.getAllCategories);

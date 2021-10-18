@@ -440,6 +440,22 @@ var updateskiddatas=async (req,res)=>{
 
 
 }
+var getskiddatas=async  (req,res)=>{
+      await pool.query(queries.getskidkapart,(err,result)=>{
+         if(err){
+               console.log(err);
+               return res.status(500).json({
+                     success:false,
+                     message:e.MsgTmFlags.INTERNAL_SERVER_ERROR
+               });
+         }
+         return res.status(200).json({
+               success:true,
+               data:result.rows[0]
+         })
+      });
+
+}
 
 module.exports = {
       addcategory,
@@ -452,5 +468,6 @@ module.exports = {
       getbanners,
       addbanners,
       deletebanner,
-      updateskiddatas
+      updateskiddatas,
+      getskiddatas
 }
