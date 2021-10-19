@@ -2,7 +2,7 @@ const express=require("express");
 const pool=require('./db/db');
 const cors=require('cors');
 const heltet=require('helmet');
-const  morgan=require('morgan');
+//const  morgan=require('morgan');
 //const  dotenv=require('dotenv');
 var fs = require('fs');
 
@@ -14,7 +14,7 @@ const port=process.env.PORT||3000;
 const app=express();
 app.use(cors());
 app.use(heltet());
-app.use(morgan('combined'));
+//app.use(morgan('combined'));
 require('./midlewares/midlewares')(app);
 require('./routers/index')(app);
 app.use('/uploads',express.static(__dirname+'/uploads'));
