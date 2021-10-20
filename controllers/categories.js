@@ -332,7 +332,7 @@ var addbanners=async (req,res)=>{
       var extention = "" + req.file.originalname;
       extention = extention.slice(extention.lastIndexOf('.'));
       const fileUpload = new Resize(imagePath, Date.now() + extention);
-      fileUpload.setparams(500,250);
+      fileUpload.setparams(750,300);
       await fileUpload.save(req.file.buffer);
 
       //const image_url=req.protocol + '://' + req.get('host')+"/"+fileUpload.fileURL();
