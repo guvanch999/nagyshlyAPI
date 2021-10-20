@@ -385,7 +385,7 @@ var getcounts=async (req,res)=>{
 var setprodsettings=async  (req,res)=>{
     var _delprice=req.body.delprice;
     var _totdis=req.body.totdis;
-    if(!_totdis || !_delprice){
+    if(_totdis==undefined || _delprice==undefined){
         return res.status(400).json({
             success:false,
             message:e.MsgTmFlags.INVALID_PARAMS
