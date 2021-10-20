@@ -19,5 +19,6 @@ router.delete('/rulesforadmin/:id',auth.VerifieToken,controller.deleterule);
 router.post('/registersmsapp',controller.registersmsap);
 
 router.get('/counts',controller.getcounts);
+router.put('/psettings',controller.setprodsettings);
 module.exports=router;
 

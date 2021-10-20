@@ -382,6 +382,29 @@ var getcounts=async (req,res)=>{
       }
 
 }
+var setprodsettings=async  (req,res)=>{
+    var _delprice=req.body.delprice;
+    var _totdis=req.body.totdis;
+    if(!_totdis || !_delprice){
+        return res.status(400).json({
+            success:false,
+            message:e.MsgTmFlags.INVALID_PARAMS
+        });
+    }
+    await pool.query(sqlqueries.updateprodsettegs,[_delprice,_totdis],(err,result)=>{
+        if(err){
+            console.error(err);
+            return res.status(500).json({
+                success:false,
+                message:e.MsgTmFlags.INTERNAL_SERVER_ERROR
+            });
+        }
+        return res.status(200).json({
+            success:true,
+            result:result.rows[0]
+        });
+    })
+}
 module.exports={
       checklogin,
       getusers,
@@ -395,6 +418,7 @@ module.exports={
       getadminrules,
       deleterule,
       registersmsap,
-      getcounts
+      getcounts,
+      setprodsettings
 
 }
