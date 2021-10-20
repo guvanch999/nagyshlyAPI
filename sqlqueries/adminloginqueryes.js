@@ -25,5 +25,5 @@ module.exports={
       countproducts:"select count(*) as count from products;",
       countbanners:"select count(*) as count from banners;",
       countcategories:"select count(*) as count from categoriyalar;",
-      updateprodsettegs:"update psettings set delprice=$1, discount=$2 return *;"
+      updateprodsettegs:"update psettings set delprice=$1, discount=$2 returning *;"
 }
