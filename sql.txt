@@ -77,7 +77,8 @@ create table sargytlar(
  total        numeric,
  status       varchar(10),
  created_at  timestamp,
- isshown   varchar(10)
+ isshown   varchar(10),
+ peyment   varchar(3)
 );
 create table sargytproductler(
  id           serial primary key,
@@ -120,5 +121,5 @@ insert into skidsettings (tm_name,ru_name) values('Arzanladysh','skidka');
 
 insert into habarlashmak(tm_adress,tel_no,mail,ru_adress) values ('Turkmenche adres','+99360000000','testmail@mail.com','Russkiy adres');
 
-insert into psettings (delprice,discount,maxshipingprice) values (15, 0, 0);
+insert into psettings (delprice,discount,maxshipingprice) values (15, 0, 1000);
 

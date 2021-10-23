@@ -134,7 +134,14 @@ var makeOrder = async (req, res) => {
       }
       var inrdata = [req.user.user_id];
       for (var i = 0; i < verif.length; i++)inrdata.push(verif[i]);
-      //console.log(inrdata);
+      var _peyment=req.body.peyment;
+      if (_peyment==undefined) {
+            return res.status(400).json({
+                  success: false,
+                  message: req.header('language') === "tm" ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS
+            });
+      }
+      inrdata.push(_peyment);
       await pool.query(queries.INSERTORDER, inrdata, async (err, result) => {
             if (err) {
                   console.log(err);
