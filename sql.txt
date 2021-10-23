@@ -54,9 +54,10 @@ id    serial primary key,
  created_at timestamp
 );
 create table psettings(
-id        serial primary key,
+ id        serial primary key,
  delprice  numeric,
- discount  numeric 
+ discount  numeric,
+ maxshipingprice  numeric
 );
 create table renkler(
 id       serial primary key,
