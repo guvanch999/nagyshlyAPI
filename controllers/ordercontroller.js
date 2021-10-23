@@ -134,7 +134,7 @@ var makeOrder = async (req, res) => {
       }
       var inrdata = [req.user.user_id];
       for (var i = 0; i < verif.length; i++)inrdata.push(verif[i]);
-      var _peyment=req.body.peyment;
+      var _peyment=req.body.payment_type;
       if (_peyment==undefined) {
             return res.status(400).json({
                   success: false,
