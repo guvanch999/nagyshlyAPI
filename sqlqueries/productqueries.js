@@ -49,9 +49,9 @@ module.exports = {
                   s += " dis.prod_id=p.id)>0 ";
                   s += " and p.new_price<=" + filterdata.maxprice + " and p.new_price>=" + filterdata.minprice + " ";
             }
-            if (sortparam == 0) s += " order by  p.new_price asc ";
-            if (sortparam == 1) s += " order by  p.new_price desc ";
-            if (sortparam == 2) s += " order by  p.id desc ";
+            if (sortparam === '0') s += " order by  p.new_price asc ";
+            if (sortparam === '1') s += " order by  p.new_price desc ";
+            if (sortparam === '2') s += " order by  p.id desc ";
             s += " limit 10 offset $2;";
             //console.log(s);
             return s;
