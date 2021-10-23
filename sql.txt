@@ -120,5 +120,5 @@ insert into skidsettings (tm_name,ru_name) values('Arzanladysh','skidka');
 
 insert into habarlashmak(tm_adress,tel_no,mail,ru_adress) values ('Turkmenche adres','+99360000000','testmail@mail.com','Russkiy adres');
 
-insert into psettings (delprice,discount) values (15, 0);
+insert into psettings (delprice,discount,maxshipingprice) values (15, 0, 0);
 

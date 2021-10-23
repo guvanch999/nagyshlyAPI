@@ -385,13 +385,14 @@ var getcounts=async (req,res)=>{
 var setprodsettings=async  (req,res)=>{
     var _delprice=req.body.delprice;
     var _totdis=req.body.totdis;
-    if(_totdis==undefined || _delprice==undefined){
+    var _delship=req.body.shippingprice;
+    if(_totdis==undefined || _delprice==undefined || _delship==undefined){
         return res.status(400).json({
             success:false,
             message:e.MsgTmFlags.INVALID_PARAMS
         });
     }
-    await pool.query(sqlqueries.updateprodsettegs,[_delprice,_totdis],(err,result)=>{
+    await pool.query(sqlqueries.updateprodsettegs,[_delprice,_totdis,_delship],(err,result)=>{
         if(err){
             console.error(err);
             return res.status(500).json({

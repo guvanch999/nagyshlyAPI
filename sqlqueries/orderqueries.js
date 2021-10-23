@@ -27,17 +27,14 @@ module.exports={
       getordercount:"select count(*) as count from sargytlar where  user_id=$1;",
       getallorders:(_sort,_filter)=>{
             var s="select s.*,u.tel_no,u.full_name from sargytlar as s  inner join users as u on u.id=s.user_id ";
-            //let statusarray= ["Garaşylýar", "Ýatyryldy", "Ýola düşdi", "Gowşuruldy"];
             if(_filter!=-1){
                   s+=" where s.status like '"+_filter+"' ";
             }
             s+= " order by s.sene "+_sort+" limit $1 offset $2;"
-            //console.log(s);
             return s;
       },
       getcountofall:(_sort,_filter)=>{
             var s="select count(*) as count from sargytlar ";
-            //let statusarray= ["Garaşylýar", "Ýatyryldy", "Ýola düşdi", "Gowşuruldy"];
             if(_filter!=-1){
                   s+=" where status like '"+_filter+"' ";
             }
