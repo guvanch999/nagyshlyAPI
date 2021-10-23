@@ -186,7 +186,7 @@ var getSortedProducts = async (req, res) => {
       var url_parts = url.parse(req.url, true).query;
       var _page = url_parts.page;
       var _skip = (_page - 1) * 10;
-      console.log(_sortid,' ',typeof _sortid);
+      //console.log(_sortid,' ',typeof _sortid);
       //console.log(req.body);
       if (!req.header('language')) {
             return res.status(400).json({
