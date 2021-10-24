@@ -13,7 +13,7 @@ async function roundproductcount(_id) {
       });
 }
 var getBigImages=async (req,res)=>{
-      var _id=re.params.id;
+      var _id=req.params.id;
       if(!_id){
             return res.status(400).json({
                   success:false,
