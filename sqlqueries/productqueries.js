@@ -101,9 +101,6 @@ module.exports = {
                   "FROM products as p  " +
                   "INNER JOIN categoriyalar as c on c.id=p.category_id   WHERE p." + name + "_name like '%" + searchtext + "%' ;";
       },
-
-
-
       INSERTPRODUCTCOUNT: "INSERT INTO disqounts(prod_id,color_id,strsize_id,sansize_id,discount) VALUES($1,$2,$3,$4,$5) returning id;",
       GETPRODUCTSFORADMIN: "SELECT p.*,c.tm_name as cat_tm_name,c.ru_name as cat_ru_name FROM products as p inner join categoriyalar as c on c.id=p.category_id and  (upper(p.tm_name) like  upper('%'||$3||'%') or upper(p.tm_about) like  upper('%'||$4||'%')) order by p.id limit $1 offset $2 ;",
       GETPRODUCTSFORADMINBYCATID: "SELECT p.*,c.tm_name as cat_tm_name,c.ru_name as cat_ru_name FROM products as p inner join categoriyalar as c on c.id=p.category_id and  (upper(p.tm_name) like upper('%'||$4||'%') or upper(p.tm_about) like upper('%'||$5||'%'))  where p.category_id=$3 order by p.id limit $1 offset $2 ;",

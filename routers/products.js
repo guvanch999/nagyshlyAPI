@@ -12,6 +12,7 @@ router.post('/sort/:cid/:sid',controller.getSortedProducts);
 router.get('/filterparams/:cid',controller.getFilterParametres);
 router.post('/favorits',controller.getFavorits);
 router.post('/searchtext',controller.getbyseearchtext);
+router.get('/bigimages/:id',controller.getBigImages);
 
 //admin functions
 router.post('/createproduct',upload.single('productimage'),controller.createProduct);

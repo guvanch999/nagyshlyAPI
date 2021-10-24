@@ -12,7 +12,28 @@ async function roundproductcount(_id) {
             }
       });
 }
-
+var getBigImages=async (req,res)=>{
+      var _id=re.params.id;
+      if(!_id){
+            return res.status(400).json({
+                  success:false,
+                  message:req.header('language')==='ru'?e.MsgRuFlags.INVALID_PARAMS:e.MsgTmFlags.INVALID_PARAMS
+            });
+      }
+      await pool.query(productqueries.GETPRODUCTIMAGES,[_id],(err,result)=>{
+            if(err){
+                  console.log(err);
+                  return res.status(500).json({
+                        success:false,
+                        message:req.header('language')==='ru'?e.MsgRuFlags.INTERNAL_SERVER_ERROR:e.MsgTmFlags.INTERNAL_SERVER_ERROR
+                  })
+            };
+            return res.status(200).json({
+                  success:true,
+                  data:result.rows
+            });
+      });
+}
 var getallProducts = async (req, res) => {
       var _id = req.params.id;
       var url_parts = url.parse(req.url, true).query;
@@ -934,5 +955,6 @@ module.exports = {
       updateprodductcount,
       updateproductdatas,
       getFavorits,
-      getbyseearchtext
+      getbyseearchtext,
+      getBigImages
 }
