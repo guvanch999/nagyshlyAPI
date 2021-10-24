@@ -28,9 +28,14 @@ var getBigImages=async (req,res)=>{
                         message:req.header('language')==='ru'?e.MsgRuFlags.INTERNAL_SERVER_ERROR:e.MsgTmFlags.INTERNAL_SERVER_ERROR
                   })
             };
+            var image_array=[];
+            result.rows.forEach((elemet)=>{
+                  image_array.push(elemet.url);
+            })
+
             return res.status(200).json({
                   success:true,
-                  data:result.rows
+                  data:image_array
             });
       });
 }
