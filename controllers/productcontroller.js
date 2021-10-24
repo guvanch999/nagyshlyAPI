@@ -164,7 +164,7 @@ var getProductByID = async (req, res) => {
       if (!_id || !req.header('language')) {
             return res.status(400).json({
                   success: false,
-                  message: req.header('language') == "tm" ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS
+                  message: req.header('language') === "tm" ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS
             });
       }
       await pool.query(productqueries.GETPRODUCTBYID(req.header('language')), [_id], async (err, result) => {
@@ -172,7 +172,7 @@ var getProductByID = async (req, res) => {
                   console.log(err);
                   return res.status(400).json({
                         success: false,
-                        message: req.header('language') == "tm" ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS
+                        message: req.header('language') === "tm" ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS
                   });
             }
             if (result.rowCount == 0) {
@@ -185,11 +185,15 @@ var getProductByID = async (req, res) => {
                   var image_result = await pool.query(productqueries.GETPRODUCTIMAGES, [_id]);
                   var color_result = await pool.query(productqueries.GETPRODUCTCOLORS(req.header('language')), [_id]);
                   var size = await pool.query(productqueries.GETSIZES([_id]));
-
+                  var image_array=[];
+                  image_result.rows.forEach((elemet)=>{
+                        image_array.push(elemet.url);
+                  })
                   return res.status(200).json({
                         success: true,
                         description: result.rows[0].description,
                         images: image_result.rows,
+                        bitgimages:image_array,
                         colors: color_result.rows,
                         size: size.rows
                   });
