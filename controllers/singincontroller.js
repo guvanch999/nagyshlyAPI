@@ -69,6 +69,7 @@ var PostCode = async (req, res) => {
                         });
 
                   } else {
+                        console.log("No sms app registred!");
                         return res.status(500).json({
                               success: false,
                               message: req.header('language') == "tm" ? e.MsgTmFlags.INTERNAL_SERVER_ERROR : e.MsgRuFlags.INTERNAL_SERVER_ERROR
