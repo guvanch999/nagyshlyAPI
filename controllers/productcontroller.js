@@ -268,7 +268,6 @@ var getFilterParametres = async (req, res) => {
                         message: req.header('language') == "tm" ? e.MsgTmFlags.INTERNAL_SERVER_ERROR : e.MsgRuFlags.INTERNAL_SERVER_ERROR
                   });
             }
-            console.log(result);
             if(result.rowCount==0){
                   return res.status(200).json({
                         "success": true,

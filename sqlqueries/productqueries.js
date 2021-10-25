@@ -60,13 +60,11 @@ module.exports = {
     GETPRODUCTIDS: function (cid){
         var s = "SELECT id FROM products WHERE ";
         if (cid>0) s += " category_id=" + cid; else s += " discount>0;";
-        console.log(s);
         return s;
     },
     GETMINANDMAXPRICE: function(cid){
         var s = "SELECT MIN(price) AS MINPRICE, MAX(price) AS MAXPRICE FROM products where ";
         if (cid>0) s += " category_id=" + cid; else s += " discount>0;";
-        console.log(s);
         return s;
     },
 
