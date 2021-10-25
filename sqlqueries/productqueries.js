@@ -57,8 +57,17 @@ module.exports = {
             //console.log(s);
             return s;
       },
-      GETPRODUCTIDS: "SELECT id FROM products WHERE category_id=$1",
-      GETMINANDMAXPRICE: "SELECT MIN(price) AS MINPRICE, MAX(price) AS MAXPRICE FROM products where category_id=$1;",
+      GETPRODUCTIDS:(cid)=>{
+            var s="SELECT id FROM products WHERE ";
+            if(cid)s+=" category_id="+cid; else s+=" discount>0;"
+            return  s;
+      },
+      GETMINANDMAXPRICE:(cid)=> {
+            var s="SELECT MIN(price) AS MINPRICE, MAX(price) AS MAXPRICE FROM products where ";
+            if(cid)s+=" category_id="+cid; else s+=" discount>0;"
+            return s;
+            },
+
       GETSIZES: (arrayids) => {
             return "SELECT DISTINCT on (size) size FROM disqounts WHERE prod_id IN (" + arrayids.join(',') + ")";
       },

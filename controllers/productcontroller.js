@@ -254,13 +254,13 @@ var getSortedProducts = async (req, res) => {
 }
 var getFilterParametres = async (req, res) => {
       var _categoryid = req.params.cid;
-      if (!_categoryid) {
+      if (_categoryid==undefined) {
             return res.status(400).json({
                   success: false,
                   msg: req.header('language') == 'tm' ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS,
             });
       }
-      await pool.query(productqueries.GETPRODUCTIDS, [_categoryid], async (err, result) => {
+      await pool.query(productqueries.GETPRODUCTIDS(_categoryid), async (err, result) => {
             if (err) {
                   console.log(err);
                   return res.status(500).json({
@@ -283,7 +283,7 @@ var getFilterParametres = async (req, res) => {
             });
 
             try {
-                  var minmaxresult = await pool.query(productqueries.GETMINANDMAXPRICE, [_categoryid]);
+                  var minmaxresult = await pool.query(productqueries.GETMINANDMAXPRICE(_categoryid));
                   var size = await pool.query(productqueries.GETSIZES(product_ids));
                   var colors = await pool.query(productqueries.GETCOLORS(req.header('language'), product_ids));
                   return res.status(200).json({
