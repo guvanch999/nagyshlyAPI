@@ -224,7 +224,7 @@ var getSortedProducts = async (req, res) => {
                   msg: req.header('language') == 'tm' ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS,
             });
       }
-      if (!_catid) {
+      if (_catid==undefined) {
             return res.status(400).json({
                   success: false,
                   msg: req.header('language') == 'tm' ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS,
@@ -236,7 +236,7 @@ var getSortedProducts = async (req, res) => {
                   msg: req.header('language') == 'tm' ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS,
             });
       }
-      await pool.query(productqueries.GETSORTPRODUCTS(req.body, _sortid), [_catid, _skip], (err, result) => {
+      await pool.query(productqueries.GETSORTPRODUCTS(req.body, _sortid,_catid), [_skip], (err, result) => {
             if (err) {
                   console.log(err);
                   return res.status(500).json({

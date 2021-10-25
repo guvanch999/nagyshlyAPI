@@ -30,12 +30,13 @@ module.exports = {
             return "SELECT  RR.id ,RR." + name + "_name as name,RR.code,CC.image_url FROM disqounts AS CC INNER JOIN renkler AS RR on RR.id=CC.color_id and CC.prod_id=$1;";
       },
       // DISTINCT ON  (RR.id)
-      GETSORTPRODUCTS: function (filterdata, sortparam) {
+      GETSORTPRODUCTS: function (filterdata, sortparam,category_id) {
             // console.log(filterdata);
             var s = "SELECT  p.id,p.image_url,p.tm_name,p.ru_name,p.countinstock, " +
                   "p.price,p.discount,p.new_price " +
                   "FROM products as p  " +
-                  "INNER JOIN categoriyalar as c on c.id=p.category_id where c.id=$1  ";
+                  "INNER JOIN categoriyalar as c on c.id=p.category_id where ";
+            if(category_id>0)s+= " c.id="+category_id+ "  "; else s+="  p.discount>0  "
             if (filterdata.isactive) {
                   s += " and (select count(*) from disqounts as dis where ";
                   if (filterdata.color_ids.length > 0)
@@ -52,7 +53,7 @@ module.exports = {
             if (sortparam === '1') s += " order by  p.new_price asc ";
             if (sortparam === '2') s += " order by  p.new_price desc ";
             if (sortparam === '3') s += " order by  p.id desc ";
-            s += " limit 10 offset $2;";
+            s += " limit 10 offset $1;";
             //console.log(s);
             return s;
       },
