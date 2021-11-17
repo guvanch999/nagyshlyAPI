@@ -14,15 +14,16 @@ var checkorders = async (req, res) => {
                   message: req.header('language') == "tm" ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS
             });
       }
-      //console.log(req.body);
+      console.log(req.body);
       var ids = [0];
       products.forEach(element => {
             ids.push(element.id);
       });
+      console.log(ids);
       await pool.query(queries.SELECTPRODUCTS(req.header('language'), ids), async (err, result) => {
             if (err) {
                   console.log(err);
-                  return res.status(400).json({
+                  return res.status(500).json({
                         success: false,
                         msg: req.header('language') == 'tm' ? e.MsgTmFlags.INTERNAL_SERVER_ERROR : e.MsgRuFlags.INTERNAL_SERVER_ERROR,
                   });
@@ -79,7 +80,7 @@ var checkorders = async (req, res) => {
                               }
                               catch (cerr) {
                                     console.log(cerr);
-                                    return res.status(400).json({
+                                    return res.status(500).json({
                                           success: false,
                                           msg: req.header('language') == 'tm' ? e.MsgTmFlags.INTERNAL_SERVER_ERROR : e.MsgRuFlags.INTERNAL_SERVER_ERROR,
                                     });
