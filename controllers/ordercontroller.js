@@ -8,6 +8,7 @@ const admin = require('../utils/firebase-config');
 
 var checkorders = async (req, res) => {
       var products = req.body;
+      console.log(req.body);
       if (!Array.isArray(products) || !req.header('language')) {
             return res.status(400).json({
                   success: false,
