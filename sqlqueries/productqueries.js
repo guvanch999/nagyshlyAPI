@@ -35,7 +35,7 @@ module.exports = {
         var s = "SELECT  p.id,p.image_url,p.tm_name,p.ru_name,p.countinstock, " +
             "p.price,p.discount,p.new_price " +
             "FROM products as p  " +
-            "INNER JOIN categoriyalar as c on c.id=p.category_id where ";
+            "INNER JOIN categoriyalar as c on c.id=p.category_id where  p.countinstock>0 ";
         if (category_id > 0) s += " c.id=" + category_id + "  "; else s += "  p.discount>0  "
         if (filterdata.isactive) {
             s += " and (select count(*) from disqounts as dis where ";
