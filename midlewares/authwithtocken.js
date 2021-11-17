@@ -5,10 +5,14 @@ const queries =require('../sqlqueries/adminloginqueryes');
 exports.VerifieToken= async (req,res,next)=>{
       const token=req.header('auth-token');
       const admin=req.header('admin')||false;
-      if(!token)return res.status(401).json({
-            success:false,
-            message:"No token detected"
-      });
+      if(!token){
+            console.log("No token detected")
+            return res.status(401).json({
+                  success:false,
+                  message:"No token detected"
+            });
+      }
+
 
       try{
             
@@ -25,12 +29,12 @@ exports.VerifieToken= async (req,res,next)=>{
       }
       try{
             var que="";
-
             if(admin)que=queries.CHECKADMIN; else que=queries.CHECKUSER;
            
             var result = await pool.query(que,[req.user.user_id]);
 	     
             if(!result.rowCount){
+                  console.log("Access Denied");
                   return res.status(401).json({
                         success:false,
                         message:"Access Denied"
