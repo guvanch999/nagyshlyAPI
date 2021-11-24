@@ -20,5 +20,6 @@ router.post('/registersmsapp',controller.registersmsap);
 
 router.get('/counts',controller.getcounts);
 router.put('/psettings',controller.setprodsettings);
+router.post('/changedatas',auth.VerifieToken,controller.changePass);
 module.exports=router;
 

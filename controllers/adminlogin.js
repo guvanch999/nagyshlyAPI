@@ -406,6 +406,28 @@ var setprodsettings=async  (req,res)=>{
         });
     })
 }
+var changePass=async (req,res)=>{
+      let username=req.body.username;
+      let password=req.body.password;
+      if(!username || !password){
+            return res.status(400).json({
+                  success:false,
+                  message:e.MsgTmFlags.INVALID_PARAMS
+            });
+      }
+      await pool.query(sqlqueries.CHANGEADMINDATAS,[username,password],(err,result)=>{
+            if(err){
+                  console.log(err);
+                  return res.status(500).json({
+                        success:false,
+                        message:e.MsgTmFlags.INTERNAL_SERVER_ERROR
+                  });
+            }
+            return res.status(200).json({
+                  success:true
+            });
+      });
+}
 module.exports={
       checklogin,
       getusers,
@@ -420,6 +442,7 @@ module.exports={
       deleterule,
       registersmsap,
       getcounts,
-      setprodsettings
+      setprodsettings,
+      changePass
 
 }
