@@ -21,7 +21,7 @@ module.exports={
       DELETEORDERPRODUCTS:"DELETE FROM sargytproductler WHERE sargytlar_id=$1;",
       DELETEORDER:"DELETE FROM sargytlar WHERE  id=$1;",
       getordersforadmin:"select s.*,u.tel_no,u.full_name from sargytlar as s  inner join users as u on u.id=s.user_id where  u.id=$1 limit $2 offset $3;",
-      getorderproductsforadmin:"select s.*,d.* from sargytproductler as s inner join disqounts as d on d.id=s.pc_id where sargytlar_id=$1",
+      getorderproductsforadmin:"select s.*,d.size,c.tm_name from sargytproductler as s inner join disqounts as d on d.id=s.pc_id inner join renkler as c on d.color_id=c.id where sargytlar_id=$1",
       changestatus:"update sargytlar set status=$2 where id=$1 returning *;",
       getforcheck:"select * from sargytlar where id=$1",
       getordercount:"select count(*) as count from sargytlar where  user_id=$1;",
