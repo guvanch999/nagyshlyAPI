@@ -4,10 +4,10 @@ const queries = require('../sqlqueries/addressqueries');
 
 var createadress=async (req,res)=>{
       var _adress=req.body.adress;
-      if(!_adress|| !req.header('language')) {
+      if(!_adress) {
             return res.status(400).json({
                   success: false,
-                  message: req.header('language') == "tm" ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS
+                  message: e.MsgTmFlags.INVALID_PARAMS
             });
       }
       await pool.query(queries.INSERTNEWADDRESS,[req.user.user_id,_adress],async (err,result)=>{
@@ -15,7 +15,7 @@ var createadress=async (req,res)=>{
                   console.log(err);
                   return res.status(400).json({
                         success: false,
-                        msg: req.header('language') == 'tm' ? e.MsgTmFlags.INTERNAL_SERVER_ERROR : e.MsgRuFlags.INTERNAL_SERVER_ERROR,
+                        msg:  e.MsgTmFlags.INTERNAL_SERVER_ERROR ,
                   });
             }
             return res.status(200).json({
@@ -25,18 +25,12 @@ var createadress=async (req,res)=>{
       });
 }
 var getUserAdresess=async (req,res)=>{
-      if(!req.header('language')) {
-            return res.status(400).json({
-                  success: false,
-                  message: req.header('language') == "tm" ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS
-            });
-      }
       await pool.query(queries.GETADRESESOFUSER,[req.user.user_id],async (err,result)=>{
             if (err) {
                   console.log(err);
                   return res.status(400).json({
                         success: false,
-                        msg: req.header('language') == 'tm' ? e.MsgTmFlags.INTERNAL_SERVER_ERROR : e.MsgRuFlags.INTERNAL_SERVER_ERROR,
+                        msg:  e.MsgTmFlags.INTERNAL_SERVER_ERROR ,
                   });
             }
             return res.status(200).json({
@@ -46,18 +40,12 @@ var getUserAdresess=async (req,res)=>{
       });
 }
 var updateAdress=async (req,res)=>{
-      if(!req.header('language')) {
-            return res.status(400).json({
-                  success: false,
-                  message: req.header('language') == "tm" ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS
-            });
-      }
       var _adress=req.body.adress;
       var _id=req.params.id;
       if(!_id || !_adress){
             return res.status(400).json({
                   success: false,
-                  message: req.header('language') == "tm" ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS
+                  message: e.MsgTmFlags.INVALID_PARAMS
             });
       }
       await pool.query(queries.UPDATEADRESS,[_id,_adress],async (err,result)=>{
@@ -65,7 +53,7 @@ var updateAdress=async (req,res)=>{
                   console.log(err);
                   return res.status(400).json({
                         success: false,
-                        msg: req.header('language') == 'tm' ? e.MsgTmFlags.INTERNAL_SERVER_ERROR : e.MsgRuFlags.INTERNAL_SERVER_ERROR,
+                        msg:  e.MsgTmFlags.INTERNAL_SERVER_ERROR ,
                   });
             }
             return res.status(200).json({
@@ -75,10 +63,10 @@ var updateAdress=async (req,res)=>{
 }
 var deleteadress=async (req,res)=>{
       var _id=req.params.id;
-      if(!_id ||!req.header('language')) {
+      if(!_id) {
             return res.status(400).json({
                   success: false,
-                  message: req.header('language') == "tm" ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS
+                  message: e.MsgTmFlags.INVALID_PARAMS
             });
       }
       await pool.query(queries.GETFORCHECK,[_id],async (err,result)=>{
@@ -86,21 +74,21 @@ var deleteadress=async (req,res)=>{
             console.log(err);
             return res.status(400).json({
                   success: false,
-                  msg: req.header('language') == 'tm' ? e.MsgTmFlags.INTERNAL_SERVER_ERROR : e.MsgRuFlags.INTERNAL_SERVER_ERROR,
+                  msg:  e.MsgTmFlags.INTERNAL_SERVER_ERROR ,
             });
             }
-            if(result.rowCount==0){
+            if(result.rowCount===0){
                   return res.status(400).json({
                         success: false,
-                        msg: req.header('language') == 'tm' ? e.MsgTmFlags.INTERNAL_SERVER_ERROR : e.MsgRuFlags.INTERNAL_SERVER_ERROR,
+                        msg:  e.MsgTmFlags.INTERNAL_SERVER_ERROR ,
                   });
             }
-            await pool.query(queries.DELETEADRESS,[_id],(derr,dresult)=>{
+            await pool.query(queries.DELETEADRESS,[_id],(derr)=>{
                   if(derr){
                         console.log(derr);
                         return res.status(400).json({
                               success: false,
-                              msg: req.header('language') == 'tm' ? e.MsgTmFlags.INTERNAL_SERVER_ERROR : e.MsgRuFlags.INTERNAL_SERVER_ERROR,
+                              msg:  e.MsgTmFlags.INTERNAL_SERVER_ERROR ,
                         });
                   }
                   return res.status(200).json({

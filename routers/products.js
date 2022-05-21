@@ -6,26 +6,24 @@ const auth=require('../midlewares/authwithtocken');
 
 
 
-router.get('/category/:id',controller.getallProducts);
+router.get('/categoryadsdsd/:id/:sub_id',controller.getallProducts);
 router.get('/product/:id',controller.getProductByID);
-router.post('/sort/:cid/:sid',controller.getSortedProducts);
+router.post('/category/:cat_id/:sub_id/:sort_id',controller.getSortedProducts);
 router.get('/filterparams/:cid',controller.getFilterParametres);
 router.post('/favorits',controller.getFavorits);
 router.post('/searchtext',controller.getbyseearchtext);
 router.get('/bigimages/:id',controller.getBigImages);
 
 //admin functions
-router.post('/createproduct',upload.single('productimage'),controller.createProduct);
-router.post('/updateproductdatas',auth.VerifieToken,upload.single('productimage'),controller.updateproductdatas);
-router.post('/addproductimage',upload.single('productimage'), controller.addimagetoproduct);
-router.delete('/productimage/:id',auth.VerifieToken,controller.deleteproductimage);
-router.delete('/product/:id',auth.VerifieToken,controller.deleteProduct);
-router.post('/addproductdiscount',upload.single('productimage'),controller.addProductDiscount);
-router.delete('/deleteproductdosqount/:id',auth.VerifieToken,controller.deleteProductDiscount);
-router.get('/admin',auth.VerifieToken,controller.getproductsadmin);
-router.get('/pages',auth.VerifieToken,controller.getproductpages);
-router.get('/adminproduct/:id',auth.VerifieToken,controller.getproducts);
-router.get('/adminproductimages/:id',auth.VerifieToken,controller.getProductIMAGES);
-router.get('/admindisqounts/:id',auth.VerifieToken,controller.getProductdiscounts);
-router.post('/updcount',auth.VerifieToken,upload.single('image'),controller.updateprodductcount);
+router.post('/createproduct',upload.single('image'),controller.createProduct);
+router.post('/updateproductdatas',upload.single('image'),controller.updateproductdatas);
+router.post('/addproductimage',upload.single('image'), controller.addimagetoproduct);
+router.post('/addproductfile',upload.single('image'), controller.addFileToProduct);
+router.put('/updateproductfile',upload.single('image'),controller.updateProductFile)
+router.delete('/productimage/:id',controller.deleteproductimage);
+router.delete('/product/:id',controller.deleteProduct);
+router.get('/admin',controller.getproductsadmin);
+router.get('/adminproduct/:id',controller.getproducts);
+router.get('/adminproductfiles/:id',controller.getProductIMAGES);
+
 module.exports=router;

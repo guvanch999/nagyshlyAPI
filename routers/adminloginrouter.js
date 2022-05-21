@@ -3,23 +3,23 @@ const controller=require('../controllers/adminlogin');
 const auth=require('../midlewares/authwithtocken');
 
 router.post('/login',controller.checklogin);
-router.post('/adminusers',auth.VerifieToken,controller.getusers);
-router.delete('/adminusers/:id',auth.VerifieToken,controller.deleteuser);
+router.post('/adminusers',controller.getusers);
+router.delete('/adminusers/:id',controller.deleteuser);
 router.get('/habarlashmak',controller.getaboutdelails);
 router.get('/rules',controller.rules);
 //contuct us details
-router.get('/contactusdetails',auth.VerifieToken,controller.contactusdetails);
-router.put('/contactusdetails',auth.VerifieToken,controller.updatecontactdetails);
+router.get('/contactusdetails',controller.contactusdetails);
+router.put('/contactusdetails',controller.updatecontactdetails);
 //usage rules
-router.get('/rulesforadmin',auth.VerifieToken,controller.getadminrules);
-router.put('/rulesforadmin/:id',auth.VerifieToken,controller.updaterule);
-router.post('/rulesforadmin',auth.VerifieToken,controller.createrule);
-router.delete('/rulesforadmin/:id',auth.VerifieToken,controller.deleterule);
+router.get('/rulesforadmin',controller.getadminrules);
+router.put('/rulesforadmin/:id',controller.updaterule);
+router.post('/rulesforadmin',controller.createrule);
+router.delete('/rulesforadmin/:id',controller.deleterule);
 
 router.post('/registersmsapp',controller.registersmsap);
 
 router.get('/counts',controller.getcounts);
 router.put('/psettings',controller.setprodsettings);
-router.post('/changedatas',auth.VerifieToken,controller.changePass);
+router.post('/changedatas',controller.changePass);
 module.exports=router;
 

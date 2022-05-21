@@ -1,7 +1,7 @@
 const jwt=require('jsonwebtoken');
 const pool=require('../db/db');
 const queries =require('../sqlqueries/adminloginqueryes');
-
+const settings=require('../settings/usersettings')
 exports.VerifieToken= async (req,res,next)=>{
       const token=req.header('auth-token');
       const admin=req.header('admin')||false;
@@ -12,13 +12,10 @@ exports.VerifieToken= async (req,res,next)=>{
                   message:"No token detected"
             });
       }
-
-
       try{
-            
-            const verified=jwt.verify(token,process.env.TOKEN_KEY);
+            const verified=jwt.verify(token,settings.APISECRETKEY);
             req.user=verified;
-   
+
       }catch(err)
       {
             console.log(err);
@@ -30,9 +27,8 @@ exports.VerifieToken= async (req,res,next)=>{
       try{
             var que="";
             if(admin)que=queries.CHECKADMIN; else que=queries.CHECKUSER;
-           
+
             var result = await pool.query(que,[req.user.user_id]);
-	     
             if(!result.rowCount){
                   console.log("Access Denied");
                   return res.status(401).json({

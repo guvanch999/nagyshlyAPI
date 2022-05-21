@@ -13,13 +13,13 @@ var addcategory = async (req, res) => {
       if (!tkm_name || !rus_name) {
             return res.status(400).json({
                   success: false,
-                  msg: req.header('language') == 'tm' ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS,
+                  msg:  e.MsgTmFlags.INVALID_PARAMS
             });
       }
       if (!req.file) {
             return res.status(400).json({
                   success: false,
-                  msg: req.header('language') == "tm" ? e.MsgTmFlags.ERROR_UPLOAD_SAVE_IMAGE_FAIL : e.MsgRuFlags.ERROR_UPLOAD_SAVE_IMAGE_FAIL
+                  msg: e.MsgTmFlags.ERROR_UPLOAD_SAVE_IMAGE_FAIL
             });
       }
       var extention = "" + req.file.originalname;
@@ -27,8 +27,6 @@ var addcategory = async (req, res) => {
       extention = extention.slice(extention.lastIndexOf('.'));
       const fileUpload = new Resize(imagePath, Date.now() + extention);
       await fileUpload.save(req.file.buffer);
-
-      //const image_url=req.protocol + '://' + req.get('host')+"/"+fileUpload.fileURL();
       const image_url = fileUpload.fileURL();
 
       try {
@@ -44,26 +42,19 @@ var addcategory = async (req, res) => {
             await functions.deleteServerFilePath(image_url, 0);
             return res.status(500).json({
                   success: false,
-                  msg: req.header('language') == 'tm' ? e.MsgTmFlags.INTERNAL_SERVER_ERROR : e.MsgRuFlags.INTERNAL_SERVER_ERROR,
+                  msg: e.MsgTmFlags.INTERNAL_SERVER_ERROR
             });
       }
 
 }
 var getAllCategories = async (req, res) => {
-      if (!req.header('language')) {
-            return res.status(400).json({
-                  success: false,
-                  message: e.MsgRuFlags.INVALID_PARAMS
-            });
-      }
       try {
-            var getskid=await pool.query(queries.getskidkapart);
-            var result = await pool.query(queries.SELECTALL(req.header('language') + "_name"));
-            var resultarray=getskid.rows.concat(result.rows);
+
+            var result = await pool.query(queries.SELECTALL);
             return res.status(200).json({
                   success: true,
                   count: result.rowCount,
-                  data:resultarray
+                  data:result.rows
             });
 
       }
@@ -71,26 +62,26 @@ var getAllCategories = async (req, res) => {
             console.log(err);
             return res.status(400).json({
                   success: false,
-                  msg: req.header('language') == 'tm' ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS,
+                  msg:  e.MsgTmFlags.INVALID_PARAMS
             });
       }
 
 }
 var getCategoryByID = async (req, res) => {
       const _id = req.params.id;
-      if (!_id || !req.header('language')) {
+      if (!_id ) {
             return res.status(400).json({
                   success: false,
-                  msg: req.header('language') == 'tm' ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS,
+                  msg:  e.MsgTmFlags.INVALID_PARAMS
             });
       }
       var result;
       try {
-            result = await pool.query(queries.SELECTBYID(req.header('language') + "_name"), [_id]);
-            if (!result.rowCount || result.rowCount == 0) {
+            result = await pool.query(queries.SELECTBYID, [_id]);
+            if (!result.rowCount || result.rowCount === 0) {
                   return res.status(400).json({
                         success: false,
-                        msg: req.header('language') == 'tm' ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS,
+                        msg:e.MsgTmFlags.INVALID_PARAMS
                   });
             }
             return res.status(200).json({
@@ -99,9 +90,9 @@ var getCategoryByID = async (req, res) => {
             });
       } catch (err) {
             console.log(err);
-            return res.status(400).json({
+            return res.status(500).json({
                   success: false,
-                  msg: req.header('language') == 'tm' ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS,
+                  msg: e.MsgTmFlags.INTERNAL_SERVER_ERROR
             });
       }
 
@@ -110,56 +101,47 @@ var getCategoryByID = async (req, res) => {
 var searchcategrory=async (req,res)=>{
       var _searchtext=req.body.searchtext||"";
 
-      if (!req.header('language')) {
-            return res.status(400).json({
-                  success: false,
-                  message: e.MsgRuFlags.INVALID_PARAMS
-            });
-      }
-      await pool.query(queries.SELECTBYSEARCHTEXT(req.header('language')),[_searchtext],async (err,result)=>{
+      await pool.query(queries.SELECTBYSEARCHTEXT,[_searchtext],async (err,result)=>{
             if(err){
                   console.log(err);
                   return res.status(500).json({
                         success:false,
-                        message:req.header('language') == 'tm' ? e.MsgTmFlags.INTERNAL_SERVER_ERROR : e.MsgRuFlags.INTERNAL_SERVER_ERROR,
+                        message:e.MsgTmFlags.INTERNAL_SERVER_ERROR
                   });
             }
             try {
-                  var getskid=await pool.query(queries.selectskidsforuser(req.header('language')));
-                  var resultarray=getskid.rows.concat(result.rows);
                   return res.status(200).json({
                         success:true,
-                        data:resultarray
+                        data:result.rows
                   });
             }catch (err1){
                   console.log(err1);
                   return res.status(500).json({
                         success:false,
-                        message:req.header('language') == 'tm' ? e.MsgTmFlags.INTERNAL_SERVER_ERROR : e.MsgRuFlags.INTERNAL_SERVER_ERROR,
+                        message:e.MsgTmFlags.INTERNAL_SERVER_ERROR
                   })
             }
 
       });
 }
 var updateCategory = async (req, res) => {
-
       const _id = req.body.id;
       const _tm_name = req.body.tm_name;
       const _ru_name = req.body.ru_name;
-      if (!_id || !_tm_name || !_ru_name || !req.header('language')) {
+      if (!_id || !_tm_name || !_ru_name) {
             return res.status(400).json({
                   success: false,
-                  msg: req.header('language') == 'tm' ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS,
+                  msg:  e.MsgTmFlags.INVALID_PARAMS
             });
 
       }
       var result;
       try {
             result = await pool.query(queries.GETCATEGORYBYID, [_id]);
-            if (!result.rowCount || result.rowCount == 0) {
+            if (!result.rowCount || result.rowCount === 0) {
                   return res.status(400).json({
                         success: false,
-                        msg: req.header('language') == 'tm' ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS,
+                        msg: e.MsgTmFlags.INVALID_PARAMS
                   });
             }
             const imagePath = 'categoryimages';
@@ -170,14 +152,13 @@ var updateCategory = async (req, res) => {
                         data: result.rows[0]
                   });
             } else {
-                  var del = await functions.deleteServerFilePath(result.rows[0].image_url, 0);
+                  await functions.deleteServerFilePath(result.rows[0].image, 0);
                   var extention = "" + req.file.originalname;
 
                   extention = extention.slice(extention.lastIndexOf('.'));
 
                   const fileUpload = new Resize(imagePath, Date.now() + extention);
-                  const filename = await fileUpload.save(req.file.buffer);
-
+                  await fileUpload.save(req.file.buffer);
                   const image_url = fileUpload.fileURL();
                   result = await pool.query(queries.UPDATEWITHIMAGE, [_id, image_url, _tm_name, _ru_name]);
                   return res.status(200).json({
@@ -190,7 +171,7 @@ var updateCategory = async (req, res) => {
             console.log(err);
             return res.status(400).json({
                   success: false,
-                  msg: req.header('language') == 'tm' ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS,
+                  msg:  e.MsgTmFlags.INVALID_PARAMS
             });
       }
 
@@ -198,33 +179,30 @@ var updateCategory = async (req, res) => {
 }
 var deleteCategory = async (req, res) => {
       const _id = req.params.id;
-      if (!_id || !req.header('language')) {
+      if (!_id) {
             return res.status(400).json({
                   success: false,
-                  msg: req.header('language') == 'tm' ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS,
+                  msg:  e.MsgTmFlags.INVALID_PARAMS
             });
       }
       var result;
       try {
-            var image_url;
             result = await pool.query(queries.GETCATEGORYBYID, [_id]);
-            if (!result.rowCount || result.rowCount == 0) {
+            if (!result.rowCount || result.rowCount === 0) {
                   return res.status(400).json({
                         success: false,
-                        msg: req.header('language') == 'tm' ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS,
+                        msg: e.MsgTmFlags.INVALID_PARAMS
                   });
             }
-            image_url = result.rows[0].image_url;
             result = await pool.query(queries.GETPRODUCTIDS, [_id]);
 
-            var arr = [0];
             var data = result.rows;
             for (var i = 0; i < data.length; i++)
             {
                   await deletefiles(data[i].id);
             }
-            
-            result = await pool.query(queries.DELETECAT, [_id]);
+            await pool.query(queries.DELSUBCATE,[_id])
+             await pool.query(queries.DELETECAT, [_id]);
             return res.status(200).json({
                   success: true,
             });
@@ -232,7 +210,7 @@ var deleteCategory = async (req, res) => {
             console.log(err);
             return res.status(400).json({
                   success: false,
-                  msg: req.header('language') == 'tm' ? e.MsgTmFlags.INVALID_PARAMS : e.MsgRuFlags.INVALID_PARAMS,
+                  msg: e.MsgTmFlags.INVALID_PARAMS
             });
       }
 }
@@ -280,182 +258,15 @@ async function deletefiles(index) {
                               if (err) {
                                     console.log(err);
                                     return;
+                              } else {
+                                    return
                               }
-                              await pool.query(productqueries.GETPRODYCTDISCOUNTS, [index], async (err11, result11) => {
-                                    if (!err11) {
-                                          for (var i = 0; i < result11.rowCount; i++) {
-                                                await functions.deleteServerFilePath(result11.rows[i].image_url, 0);
-                                          }
-                                    }
-                                    await pool.query(productqueries.DELETEPRODUCTDISCOUNTS, [index], (dperr, dpresult) => {
-                                          if (dperr) {
-                                                console.log(dperr);
-                                                return;
-                                          }
-                                          return;
-                                    });
-                              });
                         });
                   });
             });
       });
 }
-var getbanners=async (req,res)=>{
-      if(!req.header('language')){
-            return res.status(400).json({
-                  success:false,
-                  message:e.MsgTmFlags.INVALID_PARAMS
-            });
-      }
-      await pool.query(queries.getbanners,(err,result)=>{
-            if(err){
-                  console.log(err);
-                  return res.status(500).json({
-                        success:false,
-                        message:req.header('language')=='tm'?e.MsgTmFlags.INTERNAL_SERVER_ERROR:e.MsgRuFlags.INTERNAL_SERVER_ERROR
-                  });
-            }
-            return res.status(200).json({
-                  success:true,
-                  data:result.rows
-            });
-      })
-}
-var addbanners=async (req,res)=>{
-        if (!req.file) {
-            return res.status(400).json({
-                  success: false,
-                  msg: e.MsgTmFlags.ERROR_UPLOAD_SAVE_IMAGE_FAIL
-            });
-      }
-      const imagePath = 'bannerimages';
-      var extention = "" + req.file.originalname;
-      extention = extention.slice(extention.lastIndexOf('.'));
-      const fileUpload = new Resize(imagePath, Date.now() + extention);
-      fileUpload.setparams(750,300);
-      await fileUpload.save(req.file.buffer);
 
-      //const image_url=req.protocol + '://' + req.get('host')+"/"+fileUpload.fileURL();
-      const image_url = fileUpload.fileURL();
-
-      try {
-
-            var result = await pool.query(queries.setbanner, [image_url]);
-            return res.status(200).json({
-                  success: true,
-                  data: result.rows[0]
-            });
-
-      } catch (err) {
-            console.log(err);
-            await functions.deleteServerFilePath(image_url, 0);
-            return res.status(500).json({
-                  success: false,
-                  msg: req.header('language') == 'tm' ? e.MsgTmFlags.INTERNAL_SERVER_ERROR : e.MsgRuFlags.INTERNAL_SERVER_ERROR,
-            });
-      }
-
-}
-var deletebanner=async (req,res)=>{
-      var _id=req.params.id;
-      if(!_id){
-            return res.status(400).json({
-                  success:false,
-                  message:e.MsgTmFlags.INVALID_PARAMS
-            });
-      }
-      await pool.query(queries.getbannerforcheck,[_id],async (err,result)=>{
-            if(err){
-                  console.log(err);
-                  res.status(500).json({
-                        success:false,
-                        message:e.MsgTmFlags.INTERNAL_SERVER_ERROR
-                  });
-            }
-            if(result.rowCount==0){
-                  return res.status(400).json({
-                        success:false,
-                        message:e.MsgTmFlags.INVALID_PARAMS
-                  });
-            }
-            await functions.deleteServerFilePath(result.rows[0].image_url, 0);
-            await pool.query(queries.deletebanner,[_id],(err1,result1)=>{
-                  if(err1){
-                        console.log(err1);
-                        return res.status(500).json({
-                              success:false,
-                              message:e.MsgTmFlags.INTERNAL_SERVER_ERROR
-                        });
-                  }
-                  return res.status(200).json({
-                        success:true,
-                        data:result1.rows[0]
-                  });
-
-            });
-      });     
-}
-var updateskiddatas=async (req,res)=>{
-      var _tm_name=req.body.tm_name;
-      var _ru_name=req.body.ru_name;
-      if (!_tm_name || !_ru_name){
-            return  res.status(400).json({
-                  success:false,
-                  message:e.MsgTmFlags.INVALID_PARAMS
-            });
-      }
-
-      try{
-            var skiddatas=await pool.query(queries.getskidkapart);
-            var _image_url="";
-            if(skiddatas.rowCount){
-                  _image_url=skiddatas.rows[0].image_url;
-            }
-            if(req.file){
-                  var imagePath='categoryimages';
-                  var extention = "" + req.file.originalname;
-
-                  extention = extention.slice(extention.lastIndexOf('.'));
-                  const fileUpload = new Resize(imagePath, Date.now() + extention);
-                  await fileUpload.save(req.file.buffer);
-
-                  //const image_url=req.protocol + '://' + req.get('host')+"/"+fileUpload.fileURL();
-                  _image_url = fileUpload.fileURL();
-            }
-            var result=await pool.query(queries.updateskidkadata,[_tm_name,_ru_name,_image_url]);
-            return res.status(200).json({
-                  success:true,
-                  data:result.rows[0]
-            });
-      }catch (err){
-            console.log(err);
-            return res.status(500).json({
-                  success:false,
-                  message:e.MsgTmFlags.INTERNAL_SERVER_ERROR
-            });
-      }
-
-
-
-
-
-}
-var getskiddatas=async  (req,res)=>{
-      await pool.query(queries.getskidkapart,(err,result)=>{
-         if(err){
-               console.log(err);
-               return res.status(500).json({
-                     success:false,
-                     message:e.MsgTmFlags.INTERNAL_SERVER_ERROR
-               });
-         }
-         return res.status(200).json({
-               success:true,
-               data:result.rows[0]
-         })
-      });
-
-}
 
 module.exports = {
       addcategory,
@@ -464,10 +275,5 @@ module.exports = {
       deleteCategory,
       getCategoryByID,
       getcategoriesadmin,
-      searchcategrory,
-      getbanners,
-      addbanners,
-      deletebanner,
-      updateskiddatas,
-      getskiddatas
+      searchcategrory
 }
