@@ -8,7 +8,11 @@ module.exports = {
     GETFAVORITEPRODUCTS: (ids) => {
         return `select p.*,c.name as categoryName,c.nameRU as categoryNameRu,s.name as subcategoryName, s.nameRU as subcategoryNameRU from product p inner join cat c on c.id=p.cat_id inner join sub s on s.id=p.sub_id where p.id in (${ids.join(',')}) ;`
     },
-    GETBYSEARHTEXT: `select p.*,c.name as categoryName,c.nameRU as categoryNameRu,s.name as subcategoryName, s.nameRU as subcategoryNameRU from product p inner join cat c on c.id=p.cat_id inner join sub s on s.id=p.sub_id where (upper(concat(p.name,' ',p.nameRU,' ',c.name,' ',c.nameRU,' ',s.name,' ',s.nameRU)) like upper('%'||$1||'%')  limit 10 offset $2;`,
+    GETBYSEARHTEXT: () => {
+        let s = `select p.*,c.name as categoryName,c.nameRU as categoryNameRu,s.name as subcategoryName, s.nameRU as subcategoryNameRU from product p inner join cat c on c.id=p.cat_id inner join sub s on s.id=p.sub_id where (upper(concat(p.name,' ',p.nameRU,' ',c.name,' ',c.nameRU,' ',s.name,' ',s.nameRU))) like upper('%'||$1||'%')  limit 10 offset $2;`;
+        console.log(s)
+        return s
+    },
     GETPRODUCTIMAGES: "SELECT url FROM file where product_id=$1 and type='IMAGE';",
     GETFILESFORDELETE: "SELECT * FROM file where product_id=$1",
     GETPRODUCTIMAGEFiles: "SELECT url FROM file where product_id=$1;",
@@ -95,5 +99,5 @@ module.exports = {
     CHACKCOUNT: "SELECT * FROM disqounts where id=$1;",
     UPDATEDISCOUNT: "update disqounts set discount=$2, image_url=$3 where id=$1 returning *;",
     ROUNDCOUNT: "UPDATE products set countinstock=(select sum(discount) from disqounts where prod_id=$2) where id = $1;",
-    UPDATEPRODUCTFILEBYID:'update file set name=$2,url=$3 where id=$1 returning *'
+    UPDATEPRODUCTFILEBYID: 'update file set name=$2,url=$3 where id=$1 returning *'
 }

@@ -89,7 +89,7 @@ var getbyseearchtext = async (req, res) => {
             message: e.MsgTmFlags.INVALID_PARAMS
         });
     }
-    await pool.query(productqueries.GETBYSEARHTEXT, [_searchtext, _skip], (err, result) => {
+    await pool.query(productqueries.GETBYSEARHTEXT(), [_searchtext, _skip], (err, result) => {
         if (err) {
             console.log(err);
             return res.status(500).json({
