@@ -15,6 +15,7 @@ router.post('/searchtext',controller.getbyseearchtext);
 router.get('/bigimages/:id',controller.getBigImages);
 
 //admin functions
+
 router.post('/createproduct',upload.single('image'),controller.createProduct);
 router.post('/updateproductdatas',upload.single('image'),controller.updateproductdatas);
 router.post('/addproductimage',upload.single('image'), controller.addimagetoproduct);

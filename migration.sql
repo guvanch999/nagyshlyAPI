@@ -40,6 +40,7 @@ CREATE TABLE detail (
    tel TEXT NOT NULL,
    email TEXT NOT NULL
 );
+
 CREATE TABLE users (
    id serial primary key,
    tel TEXT NOT NULL,
@@ -91,3 +92,7 @@ CREATE TABLE admintables (
    username TEXT NOT NULL,
    password TEXT NOT NULL
 );
+create table sms_apps(id serial primary key, name text, device_token text);
+insert into sms_apps(name,device_token) values ('','');
+insert into admintables(username,password) values('admin','admin');
+insert into detail(elthyzmat,jemiarzan,adress,tel,email) values(10,0,'AG','999999','test@gmail.com');

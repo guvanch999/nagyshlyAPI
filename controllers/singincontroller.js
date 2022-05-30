@@ -19,25 +19,32 @@ var PostCode = async (req, res) => {
             });
       }
       var sn = "";
-      var registrationToken = "ezHgXbbfQbm8bcg7phqO7r:APA91bHLUz6Yr9Jz2OWsSB5XAHCZAlOPUUgnaPGJ2ZgnMFZZLvlNSM-NTha0YRiBMBvri8Zs_FRI-rmFg2ulHoCBqTpLVToJVpltDqktgfqFWINcAW2MWjQNu2XPs6uZ2pqEQ8lEXLrw";
-      // try {
-      //       var result = await pool.query("select fcm_tocken from users where tel_no='smsapp'");
-      //       if (result.rowCount) {
-      //             registrationToken = result.rows[0].fcm_tocken;
-      //       } else {
-      //             console.log("No sms app registred!");
-      //             return res.status(500).json({
-      //                   success: false,
-      //                   message: req.header('language') == "tm" ? e.MsgTmFlags.INTERNAL_SERVER_ERROR : e.MsgRuFlags.INTERNAL_SERVER_ERROR
-      //             })
-      //       }
-      // } catch (err) {
-      //       console.log(err);
-      //       return res.status(500).json({
-      //             success: false,
-      //             message: req.header('language') == "tm" ? e.MsgTmFlags.INTERNAL_SERVER_ERROR : e.MsgRuFlags.INTERNAL_SERVER_ERROR
-      //       })
-      // }
+      var registrationToken = "";
+      try {
+            var result = await pool.query("select device_token as  fcm_tocken from sms_apps where id=1");
+            if (result.rowCount) {
+                  registrationToken = result.rows[0].fcm_tocken;
+            } else {
+                  console.log("No sms app registred!");
+                  return res.status(500).json({
+                        success: false,
+                        message: "No sms app registred!"
+                  })
+            }
+      } catch (err) {
+            console.log(err);
+            return res.status(500).json({
+                  success: false,
+                  message:e.MsgTmFlags.INTERNAL_SERVER_ERROR
+            })
+      }
+      if(!registrationToken.length){
+            console.log("No sms app registred!");
+            return res.status(500).json({
+                  success: false,
+                  message: "No sms app registred!"
+            })
+      }
       for (var i = 0; i < 5; i++) {
             sn += Math.floor(GETRANDOM());
       }
@@ -71,7 +78,7 @@ var PostCode = async (req, res) => {
                         console.log("No sms app registred!");
                         return res.status(500).json({
                               success: false,
-                              message: e.MsgTmFlags.INTERNAL_SERVER_ERROR
+                              message: "No sms app registred!"
                         });
                   }
             })

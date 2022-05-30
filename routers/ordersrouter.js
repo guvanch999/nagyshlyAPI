@@ -3,7 +3,7 @@ const controller =require('../controllers/ordercontroller');
 const auth=require('../midlewares/authwithtocken');
 
 router.post('/checkproducts',auth.VerifieToken,controller.checkorders);
-router.get('/productsettings',auth.VerifieToken,controller.getOrderSettings);
+router.get('/productsettings',controller.getOrderSettings);
 router.post('/makeorder',auth.VerifieToken,controller.makeOrder);
 router.get('/all',auth.VerifieToken,controller.getOrders);
 router.get('/byid/:id',auth.VerifieToken,controller.getorderbyid);
