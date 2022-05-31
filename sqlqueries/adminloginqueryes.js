@@ -5,7 +5,7 @@ module.exports={
       CHECKUSER:"SELECT * FROM users where id=$1;",
       CHECKADMIN:"SELECT * FROM admintables where id=$1;",
       GETUSERSCOUNT:"SELECT count(*) as count FROM users where (upper(full_name) like upper('%'||$1||'%') or upper(tel_no) like upper('%'||$2||'%')) and tel_no!='smsapp';",
-      GETHABARLASHMAK:"select * from detail;",
+      GETHABARLASHMAK:"select id,adress, tel as tel_no,email as mail from detail;",
       GETRULES:"select * from rules order by id;",
       getcontactusadmin:"select * from habarlashmak;",
       updatecuntactusdetails:"update habarlashmak set tm_adress=$1, ru_adress=$2, tel_no=$3, mail=$4 where id=1 returning *;",

@@ -38,7 +38,8 @@ CREATE TABLE detail (
    jemiarzan numeric NOT NULL,
    adress TEXT NOT NULL,
    tel TEXT NOT NULL,
-   email TEXT NOT NULL
+   email TEXT NOT NULL,
+   maxshipingprice numeric not null
 );
 
 CREATE TABLE users (
@@ -96,3 +97,4 @@ create table sms_apps(id serial primary key, name text, device_token text);
 insert into sms_apps(name,device_token) values ('','');
 insert into admintables(username,password) values('admin','admin');
 insert into detail(elthyzmat,jemiarzan,adress,tel,email) values(10,0,'AG','999999','test@gmail.com');
+alter table detail add column maxshipingprice numeric not null default '0';

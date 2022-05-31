@@ -100,7 +100,7 @@ var verificationCode = async (req, res) => {
                   message:  e.MsgTmFlags.INVALID_PARAMS
             });
       }
-      if(!_code==='202020' && _number==='63903644'){
+      if(!_code==='20202' && _number==='63903644'){
             return res.status(200).json({
                   success: true
             });

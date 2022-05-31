@@ -104,7 +104,7 @@ var getaboutdelails = async (req, res) => {
         if(result.rowCount){
             return res.status(200).json({
                 success: true,
-                data: result.rows[0]
+                data: result.rows
             });
         } else {
             return res.status(500).json({

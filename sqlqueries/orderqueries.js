@@ -8,7 +8,7 @@ module.exports = {
     GETDEFAULTPRODUCT: (name) => {
         return "SELECT CC.id,CC.color_id ,RR." + name + "_name as name,RR.code,CC.size,CC.discount as count FROM disqounts AS CC INNER JOIN renkler AS RR on RR.id=CC.color_id where CC.prod_id=$1 limit 1;";
     },
-    GETPRODUCTSETTINGS: "SELECT * FROM detail;",
+    GETPRODUCTSETTINGS: "SELECT id,maxshipingprice,jemiarzan as discount,elthyzmat as delprice FROM detail;",
     INSERTORDER: "INSERT INTO orders(user_id,sene,adress,harytlar,elt,arzan,jemi,peyment,status,isshown) VALUES($1,$8,$2,$3,$4,$5,$6,$7,'PENDING',0) returning id;",
     UPDATE: "UPDATE disqounts SET discount=discount-$2 WHERE id=$1 returning prod_id;",
     SELECTPRODUCTDETALS: "SELECT tm_name,ru_name,image_url,price,new_price FROM products where id=$1",
