@@ -8,7 +8,7 @@ module.exports={
       GETHABARLASHMAK:"select id,adress, tel as tel_no,email as mail from detail;",
       GETRULES:"select * from rules order by id;",
       getcontactusadmin:"select * from habarlashmak;",
-      updatecuntactusdetails:"update habarlashmak set tm_adress=$1, ru_adress=$2, tel_no=$3, mail=$4 where id=1 returning *;",
+      updatecuntactusdetails:"update detail set elthyzmat=$1,jemiarzan=$2,adress=$3,tel=$4,email=$5,maxshipingprice=$6 where id=1 returning *;",
       getallrulesforadmin:"select * from rules order by id;",
       updateruleadmin:"update rules set rule=$2, ruleru=$3 where id=$1 returning *;",
       getforcheck:"select * from rules where id=$1;",
@@ -22,6 +22,6 @@ module.exports={
       countbanners:"select count(*) as count from banners;",
       countcategories:"select count(*) as count from categoriyalar;",
       updateprodsettegs:"update psettings set delprice=$1, discount=$2, maxshipingprice=$3 returning *;",
-      CHANGEADMINDATAS:"update admintables set username=$1, password=$2;",
+      CHANGEADMINDATAS:"update admintables set username=$1, password=$2 where id=1 return *;",
       UPDATE_STATIC_VAR:'update detail set elthyzmat=$1,jemiarzan=$2,adress=$3,tel=$4,email=$5 returning *'
 }

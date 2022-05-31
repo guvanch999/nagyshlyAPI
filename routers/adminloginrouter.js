@@ -7,6 +7,7 @@ router.post('/adminusers',controller.getusers);
 router.delete('/adminusers/:id',controller.deleteuser);
 router.get('/habarlashmak',controller.getaboutdelails);
 router.get('/rules',controller.rules);
+router.get('/get-full-details',controller.getFullDetails);
 //contuct us details
 router.get('/contactusdetails',controller.contactusdetails);
 router.put('/contactusdetails',controller.updatecontactdetails);
@@ -21,5 +22,7 @@ router.post('/registersmsapp',controller.registersmsap);
 router.get('/counts',controller.getcounts);
 router.put('/psettings',controller.setprodsettings);
 router.post('/changedatas',controller.changePass);
+router.get('/admin-data',controller.getAdminData);
+router.put('/admin-data',controller.updateAdminData);
 module.exports=router;
 

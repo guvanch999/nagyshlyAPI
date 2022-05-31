@@ -23,7 +23,7 @@ var checklogin = async (req, res) => {
                 message: e.MsgTmFlags.INTERNAL_SERVER_ERROR
             });
         }
-        if (result.rowCount == 0) {
+        if (result.rowCount === 0) {
             return res.status(400).json({
                 success: false,
                 message: e.MsgTmFlags.ERROR_AUTH
@@ -114,6 +114,7 @@ var getaboutdelails = async (req, res) => {
         }
     });
 }
+
 var rules = async (req, res) => {
     await pool.query(sqlqueries.GETRULES, (err, result) => {
         if (err) {
@@ -144,17 +145,8 @@ var contactusdetails = async (req, res) => {
     })
 }
 var updatecontactdetails = async (req, res) => {
-    var _tm_adress = req.body.tm_adress;
-    var _ru_adress = req.body.ru_adress;
-    var _mail = req.body.mail;
-    var _tel_no = req.body.tel_no;
-    if (!_tm_adress || !_ru_adress || !_mail || !_tel_no) {
-        return res.status(400).json({
-            success: false,
-            message: e.MsgTmFlags.INVALID_PARAMS
-        });
-    }
-    await pool.query(sqlqueries.updatecuntactusdetails, [_tm_adress, _ru_adress, _tel_no, _mail], (err, result) => {
+    let {elthyzmat,jemiarzan,adress,tel,email,maxshipingprice}=req.body;
+    await pool.query(sqlqueries.updatecuntactusdetails, [elthyzmat,jemiarzan,adress,tel,email,maxshipingprice], (err, result) => {
         if (err) {
             console.log(err);
             return res.status(500).json({
@@ -164,7 +156,7 @@ var updatecontactdetails = async (req, res) => {
         }
         return res.status(200).json({
             success: true,
-            data: result.rows[0]
+            data: result.rows
         });
     })
 }
@@ -386,6 +378,7 @@ var changePass = async (req, res) => {
             success: true
         });
     });
+
 }
 module.exports = {
     checklogin,
@@ -402,6 +395,51 @@ module.exports = {
     registersmsap,
     getcounts,
     setprodsettings,
-    changePass
-
+    changePass,
+    async getFullDetails(req,res){
+     return await pool.query('select * from detail')
+         .then(result=>{
+             return res.status(200).json({
+                 success:true,
+                 data:result.rows
+             })
+         }).catch(err=>{
+             console.log(err)
+             return res.status(500).json({
+                 success: false,
+                 message: e.MsgTmFlags.INTERNAL_SERVER_ERROR
+             });
+         })
+    },
+    async getAdminData(req,res){
+        return await pool.query('select * from admintables where id=1')
+            .then(result=>{
+                return res.status(200).json({
+                    success:true,
+                    data:result.rows
+                })
+            }).catch(err=>{
+                console.log(err)
+                return res.status(500).json({
+                    success: false,
+                    message: e.MsgTmFlags.INTERNAL_SERVER_ERROR
+                });
+            })
+    },
+    async updateAdminData(req,res){
+        let {username,password}=req.body;
+        return await pool.query('update admintables set username=$1, password=$2 where id=1 returning *',[username,password])
+            .then(result=>{
+                return res.status(200).json({
+                    success:true,
+                    data:result.rows
+                })
+            }).catch(err=>{
+                console.log(err)
+                return res.status(500).json({
+                    success: false,
+                    message: e.MsgTmFlags.INTERNAL_SERVER_ERROR
+                });
+            })
+    }
 }
