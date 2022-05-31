@@ -52,7 +52,7 @@ module.exports = {
     getuser: "select * from users where id=$1;",
     makeisshown: "update orders set isshown=1 where isshown=0",
     getnotshown: "select count(*) as count from orders where isshown=0;",
-    ACCEPTED_ORDERS: "select id from orders where substr(sene,1,10) >= $1 and status='ACCEPTED' ;",
+    ACCEPTED_ORDERS: "select id from orders where substr(sene,1,10) >= $1 and status='ACCEPTED' or status='DELIVERED' ;",
     GET_ACCEPTED_ORDER_PRODUCTS: (ids) => {
         let s = `select p.id,p.name,concat(c.name,'/',s.name) as cat_name, o.count as  buyCount,o.price as buyPrice from orderproduct o inner join product p on p.id=o.product_id inner join cat c on c.id=p.cat_id inner join sub s on s.id=p.sub_id where o.order_id in (0,${ids}) order by o.product_id`
         console.log(s)
