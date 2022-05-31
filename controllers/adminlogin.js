@@ -101,10 +101,17 @@ var getaboutdelails = async (req, res) => {
                 message: e.MsgTmFlags.INTERNAL_SERVER_ERROR
             });
         }
-        return res.status(200).json({
-            success: true,
-            data: result.rows
-        });
+        if(result.rowCount){
+            return res.status(200).json({
+                success: true,
+                data: result.rows[0]
+            });
+        } else {
+            return res.status(500).json({
+                success: false,
+                message: "No data detected"
+            });
+        }
     });
 }
 var rules = async (req, res) => {
@@ -341,28 +348,22 @@ var getcounts = async (req, res) => {
 
 }
 var setprodsettings = async (req, res) => {
-    var _delprice = req.body.delprice;
-    var _totdis = req.body.totdis;
-    var _delship = req.body.shippingprice;
-    if (_totdis == undefined || _delprice == undefined || _delship == undefined) {
-        return res.status(400).json({
-            success: false,
-            message: e.MsgTmFlags.INVALID_PARAMS
-        });
-    }
-    await pool.query(sqlqueries.updateprodsettegs, [_delprice, _totdis, _delship], (err, result) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).json({
-                success: false,
-                message: e.MsgTmFlags.INTERNAL_SERVER_ERROR
-            });
-        }
-        return res.status(200).json({
-            success: true,
-            result: result.rows[0]
-        });
-    })
+    let {elthyzmat,jemiarzan,adress,tel,email}=req.body;
+    return  await pool.query(sqlqueries.UPDATE_STATIC_VAR,[elthyzmat,jemiarzan,adress,tel,email])
+        .then(result=>{
+            return res.status(200).json(
+                {
+                    success: true,
+                    data:result.rows[0]
+                }
+            );
+        }).catch(err=>{
+            console.log(err)
+          return  res.status(500).json({
+              success: false,
+              message: e.MsgTmFlags.INTERNAL_SERVER_ERROR
+          })
+        })
 }
 var changePass = async (req, res) => {
     let username = req.body.username;

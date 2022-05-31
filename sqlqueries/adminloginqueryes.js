@@ -22,5 +22,6 @@ module.exports={
       countbanners:"select count(*) as count from banners;",
       countcategories:"select count(*) as count from categoriyalar;",
       updateprodsettegs:"update psettings set delprice=$1, discount=$2, maxshipingprice=$3 returning *;",
-      CHANGEADMINDATAS:"update admintables set username=$1, password=$2;"
+      CHANGEADMINDATAS:"update admintables set username=$1, password=$2;",
+      UPDATE_STATIC_VAR:'update detail set elthyzmat=$1,jemiarzan=$2,adress=$3,tel=$4,email=$5 returning *'
 }

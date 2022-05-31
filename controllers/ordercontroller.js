@@ -55,7 +55,7 @@ var makeOrder = async (req, res) => {
             message: e.MsgTmFlags.INVALID_PARAMS
         });
     }
-    let data=getDateTime();
+    let data = getDateTime();
 
     inrdata.unshift(req.user.user_id);
     var _peyment = req.body.payment_type;
@@ -228,7 +228,7 @@ var getalladminorders = async (req, res) => {
     var url_parts = url.parse(req.url, true).query;
     var _page = url_parts.page || 1;
     var _count = url_parts.count || 20;
-    var _skip = url_parts.offset||0;
+    var _skip = url_parts.offset || 0;
     var _sort = url_parts.sort || "desc";
     var _filter = url_parts.filter || -1;
     if (!_page || !_count) {
@@ -338,7 +338,7 @@ var updatestatusaction = async (req, res) => {
         if (_status === 'ACCEPTED') {
             try {
                 let productIds = await pool.query(queries.getProductIds, [_id]);
-                var ss = await pool.query(queries.returnorder(productIds.rows.map(x=>x.product_id)), [_id]);
+                var ss = await pool.query(queries.returnorder(productIds.rows.map(x => x.product_id)), [_id]);
             } catch (tryerr) {
                 console.log(tryerr);
                 return res.status(500).json({
@@ -364,31 +364,32 @@ var updatestatusaction = async (req, res) => {
 }
 
 function getDateTime() {
-    var now     = new Date();
-    var year    = now.getFullYear();
-    var month   = now.getMonth()+1;
-    var day     = now.getDate();
-    var hour    = now.getHours();
-    var minute  = now.getMinutes();
-    var second  = now.getSeconds();
-    if(month.toString().length === 1) {
-        month = '0'+month;
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = now.getMonth() + 1;
+    var day = now.getDate();
+    var hour = now.getHours();
+    var minute = now.getMinutes();
+    var second = now.getSeconds();
+    if (month.toString().length === 1) {
+        month = '0' + month;
     }
-    if(day.toString().length === 1) {
-        day = '0'+day;
+    if (day.toString().length === 1) {
+        day = '0' + day;
     }
-    if(hour.toString().length === 1) {
-        hour = '0'+hour;
+    if (hour.toString().length === 1) {
+        hour = '0' + hour;
     }
-    if(minute.toString().length === 1) {
-        minute = '0'+minute;
+    if (minute.toString().length === 1) {
+        minute = '0' + minute;
     }
-    if(second.toString().length === 1) {
-        second = '0'+second;
+    if (second.toString().length === 1) {
+        second = '0' + second;
     }
-    var dateTime = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
+    var dateTime = year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
     return dateTime;
 }
+
 const notification_options = {
     priority: "high",
     timeToLive: 60 * 60 * 24
@@ -437,6 +438,50 @@ async function sendmessage(id, status) {
 
 }
 
+let getProductSellingRate = async (req, res) => {
+    let {from_sene} = req.body;
+    if (!from_sene) {
+        return res.status(400).json({
+            success: false,
+            message: e.MsgTmFlags.INVALID_PARAMS
+        });
+    }
+    return await pool.query(queries.ACCEPTED_ORDERS, [from_sene])
+        .then(async result => {
+            let {rows}=await pool.query(queries.GET_ACCEPTED_ORDER_PRODUCTS(result.rows.map(x=>x.id).join(',')))
+            let products=[];
+            let tempProduct=null;
+            for(let i=0;i<rows.length;i++){
+                rows[i].buycount=parseInt(rows[i].buycount);
+                if(!tempProduct){
+                    tempProduct=rows[i]
+                } else {
+                    if(tempProduct.id===rows[i].id){
+                        tempProduct.buycount=tempProduct.buycount+rows[i].buycount
+
+                    } else {
+                        products.push(tempProduct)
+                        tempProduct=rows[i]
+                    }
+                }
+            }
+            if(tempProduct)products.push(tempProduct)
+            products=products.sort((a,b)=>a.buycount<b.buycount?1:-1)
+            return res.status(200).json({
+                success: true,
+                data: products
+            });
+        })
+        .catch(err => {
+            console.log(err)
+            return res.status(500).json({
+                success: false,
+                message: e.MsgTmFlags.INTERNAL_SERVER_ERROR
+            });
+        })
+}
+
+
 module.exports = {
     checkorders,
     getOrderSettings,
@@ -448,5 +493,6 @@ module.exports = {
     getorderproductsforadminaction,
     updatestatusaction,
     getalladminorders,
-    getnotshown
+    getnotshown,
+    getProductSellingRate
 }

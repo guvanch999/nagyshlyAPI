@@ -8,7 +8,7 @@ router.post('/makeorder',auth.VerifieToken,controller.makeOrder);
 router.get('/all',auth.VerifieToken,controller.getOrders);
 router.get('/byid/:id',auth.VerifieToken,controller.getorderbyid);
 router.delete('/byid/:id',auth.VerifieToken,controller.deleteOrder);
-
+router.post('/product-selling',controller.getProductSellingRate)
 
 //for admin
 router.get('/orderforadmin/:id',controller.getadminorders);
